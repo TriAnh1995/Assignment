@@ -20,7 +20,8 @@
 
 ### API ENDPOINTS(localhost:5432)
 1. Create User:
-   Path: http:/localhost:5432/users
+   Using your preferred browser or api call tools such as (Postman or Swagger) to trigger api call.
+   Path: localhost:3000/users
    Method: Post.
 
     Example:
