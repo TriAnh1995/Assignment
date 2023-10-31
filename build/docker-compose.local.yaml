@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  pg:
+    container_name: postgres2
+    image: postgres:11-alpine
+    ports:
+      - 5432:5432
+    networks:
+      - network
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  pg-migrate:
+    container_name: pg-migrate
+    image: migrate/migrate:v4.15.2
+    volumes:
+      - ../api/data/migration:/migration
+    entrypoint: ""
+    networks:
+      - network
+    environment:
+      PG_URL: postgres://test:@pg:5432/test?sslmode=disable
+
+  api:
+    container_name: api
+    image: api-image
+    ports:
+      - 3000:3000
+    networks:
+      - network
+    volumes:
+      - ../api:/api:cached
+    environment:
+      PORT: "3000"
+
+  mockery:
+    container_name: mockery
+    image: vektra/mockery:v2.20.0
+    volumes:
+      - ../api:/api
+
+
+networks:
+  network:
+    name: test
+    external: true

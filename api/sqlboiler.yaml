@@ -1,0 +1,33 @@
+# Refer to https://github.com/volatiletech/sqlboiler#configuration
+schema: public
+pkgname: orm
+output: internal/repository/orm
+no-tests: true
+no-hooks: true
+psql:
+  dbname: test
+  host: pg
+  port: 5432
+  user: test
+  pass: ''
+  sslmode: disable
+  blacklist:
+    - schema_migrations
+types:
+  - match:
+      type: types.Decimal # Replace the not null decimal fields with an easier to use lib.
+      nullable: false
+    replace:
+      type: decimal.Decimal
+    imports:
+      third_party:
+        - '"github.com/shopspring/decimal"'
+  - match:
+      type: types.NullDecimal
+      nullable: true
+    replace:
+      type: decimal.NullDecimal
+    imports:
+      third_party:
+        - '"github.com/shopspring/decimal"'
+
