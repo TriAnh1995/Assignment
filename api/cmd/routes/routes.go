@@ -11,4 +11,6 @@ type Route struct {
 
 func (r Route) Routes(rtr *gin.Engine) {
 	rtr.POST("/users", r.h.AddUsers())
+
+	rtr.POST("/friends", r.h.AddFriend())
 }
