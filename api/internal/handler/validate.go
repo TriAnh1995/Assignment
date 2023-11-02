@@ -6,10 +6,6 @@ import (
 	"unicode"
 )
 
-type Validator interface {
-	validate() error
-}
-
 func (u User) validate() error {
 
 	if len(u.Name) == 0 {
@@ -34,26 +30,26 @@ func (u User) validate() error {
 
 func (f Friends) validate() error {
 
-	if (len(f.Emails) < 2) || (f.Emails[0] == f.Emails[1]) {
-		return errors.New("Please insert at least two different emails")
+	// Check number of input and avoid repeat inputs
+	if (len(f.Emails) != 2) || (f.Emails[0] == f.Emails[1]) {
+		return errors.New("Please insert two different emails")
 	}
 
-	if len(f.Emails[0]) == 0 {
-		return errors.New("The first email is blank")
+	// Check Empty Emails
+	for _, i := range f.Emails {
+		if len(i) == 0 {
+			return errors.New("One of your emails is blank")
+		}
 	}
-	if len(f.Emails[1]) == 0 {
-		return errors.New("The seconds email is blank")
-	}
+
+	// Check Email structure
 	emailPattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$`
 
-	match, _ := regexp.MatchString(emailPattern, f.Emails[0])
-	if !(match) {
-		return errors.New("The first email's invalid")
-	}
-
-	match, _ = regexp.MatchString(emailPattern, f.Emails[1])
-	if !(match) {
-		return errors.New("The seconds email's invalid")
+	for _, i := range f.Emails {
+		match, _ := regexp.MatchString(emailPattern, i)
+		if !(match) {
+			return errors.New("One of your emails is invalid")
+		}
 	}
 	return nil
 }
