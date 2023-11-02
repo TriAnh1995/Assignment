@@ -2,6 +2,7 @@ package routes
 
 import (
 	"assignment/internal/handler"
+
 	"github.com/gin-gonic/gin"
 )
 

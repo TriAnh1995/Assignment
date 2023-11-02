@@ -1,9 +1,10 @@
 package handler
 
 import (
-	"github.com/friendsofgo/errors"
 	"regexp"
 	"unicode"
+
+	"github.com/friendsofgo/errors"
 )
 
 func (u User) validate() error {
