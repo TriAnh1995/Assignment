@@ -2,8 +2,9 @@ package handler
 
 import (
 	"assignment/internal/model"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type User struct {
@@ -32,8 +33,8 @@ func (h Handler) AddUsers() gin.HandlerFunc {
 			}); err != nil {
 			CustomError(c, err)
 			return
-		} else {
-			c.JSON(http.StatusOK, gin.H{"message": "Add user successfully!"})
 		}
+		c.JSON(http.StatusOK, gin.H{"message": "Add user successfully!"})
+
 	}
 }

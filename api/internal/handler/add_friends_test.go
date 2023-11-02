@@ -4,12 +4,13 @@ import (
 	"assignment/internal/controller"
 	"bytes"
 	"fmt"
-	"github.com/friendsofgo/errors"
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/friendsofgo/errors"
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/require"
 )
 
 func TestHandler_AddFriend(t *testing.T) {

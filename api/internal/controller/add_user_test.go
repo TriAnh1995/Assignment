@@ -4,8 +4,9 @@ import (
 	"assignment/internal/model"
 	"assignment/internal/repository"
 	"context"
-	"github.com/stretchr/testify/require"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestImpl_AddUsers(t *testing.T) {

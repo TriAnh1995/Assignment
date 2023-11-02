@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
-	_ "github.com/goccy/go-json"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Friends struct {
@@ -11,9 +11,7 @@ type Friends struct {
 }
 
 func (h Handler) AddFriend() gin.HandlerFunc {
-
 	return func(c *gin.Context) {
-
 		var input Friends
 		if err := c.ShouldBindJSON(&input); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get your information"})
@@ -28,8 +26,8 @@ func (h Handler) AddFriend() gin.HandlerFunc {
 		if err := h.ctrl.AddFriend(c.Request.Context(), input.Emails); err != nil {
 			CustomError(c, err)
 			return
-		} else {
-			c.JSON(http.StatusOK, gin.H{"message": "Add friend successfully!"})
 		}
+		c.JSON(http.StatusOK, gin.H{"message": "Add friend successfully!"})
+
 	}
 }

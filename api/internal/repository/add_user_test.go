@@ -5,10 +5,11 @@ import (
 	"assignment/internal/repository/testdata"
 	"context"
 	"database/sql"
+	"testing"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/friendsofgo/errors"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestImpl_AddUserToDatabase(t *testing.T) {
