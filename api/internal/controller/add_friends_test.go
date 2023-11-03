@@ -76,25 +76,26 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-
 			// Setup Instance
 			repo := &repository.MockRepository{}
 			ctrl := New(repo)
 			ctx := context.Background()
 
+			// Defined mock Behaviors
 			for _, inputcase := range tc.Input {
 				repo.On("CheckUserByEmail", ctx, inputcase).
 					Return(tc.expectedCheckUserByEmail.expectedExist, tc.expectedCheckUserByEmail.expectedErr)
 			}
-
 			repo.On("CheckFriendship", ctx, tc.Input).
 				Return(tc.expectedCheckFriendship.expectedExist, tc.expectedCheckFriendship.expectedErr)
 
 			repo.On("AddFriendship", ctx, tc.Input).
 				Return(tc.expectedAddFriendship)
 
+			// Run the Test
 			err := ctrl.AddFriends(ctx, tc.Input)
 
+			// Check Result
 			if err != nil {
 				require.EqualError(t, err, tc.expectedErr.Error())
 			} else {
