@@ -8,7 +8,7 @@ import (
 
 type Controller interface {
 	AddUsers(context.Context, model.User) error
-	AddFriend(context.Context, []string) error
+	AddFriends(context.Context, []string) error
 }
 
 type CTRLImplement struct {
@@ -17,8 +17,4 @@ type CTRLImplement struct {
 
 func New(repo repository.Repository) Controller {
 	return CTRLImplement{repo}
-}
-
-func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error {
-	return nil
 }
