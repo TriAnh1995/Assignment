@@ -18,7 +18,7 @@
     + internal/controller: Handle business logic, call repositories
     + internal/repository: Data access layer
 
-### API ENDPOINTS(localhost:5432)
+### API ENDPOINTS(localhost:3000)
 1. Create User:
    + Using your preferred browser or api call tools such as (Postman or Swagger) to trigger api call
    + Path: localhost:3000/users
