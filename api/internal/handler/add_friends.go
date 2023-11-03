@@ -1,21 +1,18 @@
 package handler
 
 import (
-	"assignment/internal/model"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-type User struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+type Friends struct {
+	Emails []string `json:"friends"`
 }
 
-func (h Handler) AddUsers() gin.HandlerFunc {
-
+func (h Handler) AddFriend() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var input User
+		var input Friends
 		if err := c.ShouldBindJSON(&input); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get your information"})
 			return
@@ -26,15 +23,11 @@ func (h Handler) AddUsers() gin.HandlerFunc {
 			return
 		}
 
-		if err := h.ctrl.AddUsers(c.Request.Context(),
-			model.User{
-				Name:  input.Name,
-				Email: input.Email,
-			}); err != nil {
+		if err := h.ctrl.AddFriend(c.Request.Context(), input.Emails); err != nil {
 			CustomError(c, err)
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"message": "Add user successfully!"})
+		c.JSON(http.StatusOK, gin.H{"message": "Add friend successfully!"})
 
 	}
 }

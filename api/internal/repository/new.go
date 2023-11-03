@@ -3,6 +3,7 @@ package repository
 import (
 	"assignment/internal/model"
 	"context"
+
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 

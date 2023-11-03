@@ -2,7 +2,6 @@ package handler
 
 import (
 	"assignment/internal/controller"
-	"assignment/internal/model"
 	"bytes"
 	"fmt"
 	"net/http"
@@ -14,53 +13,43 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestHandler_AddUsers(t *testing.T) {
-
+func TestHandler_AddFriend(t *testing.T) {
 	testCases := []struct {
 		Name            string
 		requestinput    string
-		request         model.User
+		request         []string
 		expectedCtrl    error
 		expectedRespond string
 		expectedStatus  int
 	}{
-
 		{
 			Name:            "Success",
-			requestinput:    `{"name": "%s","email":"%s"}`,
-			request:         model.User{Name: "Alice", Email: "alice@example.com"},
+			requestinput:    `{"friends": ["%s", "%s"]}`,
+			request:         []string{"firstuser@example.com", "seconduser@example.com"},
 			expectedCtrl:    nil,
-			expectedRespond: "{\"message\":\"Add user successfully!\"}",
+			expectedRespond: "{\"message\":\"Add friend successfully!\"}",
 			expectedStatus:  200,
 		},
 		{
 			Name:            "Failed to get your information",
-			requestinput:    `"name": "%s","email":"%s"`,
-			request:         model.User{Name: "Alice", Email: "alice@example.com"},
+			requestinput:    `"friends": ["%s", "%s"]`,
+			request:         []string{"firstuser@example.com", "seconduser@example.com"},
 			expectedCtrl:    nil,
 			expectedRespond: "{\"error\":\"Failed to get your information\"}",
 			expectedStatus:  400,
 		},
 		{
-			Name:            "Name Invalid",
-			requestinput:    `{"name": "%s","email":"%s"}`,
-			request:         model.User{Name: "alice", Email: "alice@example.com"},
+			Name:            "Please insert at least two different emails",
+			requestinput:    `{"friends": ["%s", "%s"]}`,
+			request:         []string{"firstuser@example.com", "firstuser@example.com"},
 			expectedCtrl:    nil,
-			expectedRespond: "{\"error\":\"Name Invalid\"}",
-			expectedStatus:  400,
-		},
-		{
-			Name:            "Email Invalid",
-			requestinput:    `{"name": "%s","email":"%s"}`,
-			request:         model.User{Name: "Alice", Email: "alice%example.com"},
-			expectedCtrl:    nil,
-			expectedRespond: "{\"error\":\"Email invalid\"}",
+			expectedRespond: "{\"error\":\"Please insert at least two different emails\"}",
 			expectedStatus:  400,
 		},
 		{
 			Name:            "Internal server error",
-			requestinput:    `{"name": "%s","email":"%s"}`,
-			request:         model.User{Name: "Alice", Email: "alice@example.com"},
+			requestinput:    `{"friends": ["%s", "%s"]}`,
+			request:         []string{"firstuser@example.com", "seconduser@example.com"},
 			expectedCtrl:    errors.New("Internal server error"),
 			expectedRespond: "{\"error\":\"Internal Server Error\"}",
 			expectedStatus:  500,
@@ -71,9 +60,10 @@ func TestHandler_AddUsers(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 
 			// Create new Request
-			reqBody := []byte(fmt.Sprintf(tc.requestinput, tc.request.Name, tc.request.Email))
 
-			req := httptest.NewRequest(http.MethodPost, "/users", bytes.NewBuffer(reqBody))
+			reqBody := []byte(fmt.Sprintf(tc.requestinput, tc.request[0], tc.request[1]))
+
+			req := httptest.NewRequest(http.MethodPost, "/friends", bytes.NewBuffer(reqBody))
 
 			req.Header.Set("Content-Type", "application/json")
 
@@ -83,13 +73,13 @@ func TestHandler_AddUsers(t *testing.T) {
 			// Setup and defined mock behavior
 			ctrl := new(controller.MockController)
 
-			ctrl.On("AddUsers", req.Context(), tc.request).
+			ctrl.On("AddFriend", req.Context(), tc.request).
 				Return(tc.expectedCtrl)
 
 			// Setup instance to use mock file in test
 			instance := New(ctrl)
 
-			handler := instance.AddUsers()
+			handler := instance.AddFriend()
 
 			// Create context for test, and pass Request for it
 			c, _ := gin.CreateTestContext(res)

@@ -7,10 +7,11 @@ import (
 	"assignment/internal/repository"
 	"database/sql"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	_ "github.com/lib/pq"
 	"log"
 	"os"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/lib/pq"
 )
 
 func main() {
