@@ -25,7 +25,7 @@ func (h Handler) AddFriend() gin.HandlerFunc {
 			return
 		}
 
-		if err := h.ctrl.AddFriend(c.Request.Context(), input.Emails); err != nil {
+		if err := h.ctrl.AddFriends(c.Request.Context(), input.Emails); err != nil {
 			CustomError(c, err)
 			return
 		}
