@@ -37,7 +37,6 @@ func (f Friends) validate() error {
 	}
 
 	// Check Empty Emails
-
 	if (f.Emails[0] == "") || (f.Emails[1] == "") {
 		return errors.New("One of your emails is blank")
 	}
