@@ -11,9 +11,7 @@ type Friends struct {
 }
 
 func (h Handler) AddFriend() gin.HandlerFunc {
-
 	return func(c *gin.Context) {
-
 		var input Friends
 		if err := c.ShouldBindJSON(&input); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get your information"})

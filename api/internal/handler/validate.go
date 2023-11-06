@@ -37,20 +37,16 @@ func (f Friends) validate() error {
 	}
 
 	// Check Empty Emails
-	for _, i := range f.Emails {
-		if len(i) == 0 {
-			return errors.New("One of your emails is blank")
-		}
+	if (f.Emails[0] == "") || (f.Emails[1] == "") {
+		return errors.New("One of your emails is blank")
 	}
 
 	// Check Email structure
 	emailPattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$`
 
-	for _, i := range f.Emails {
-		match, _ := regexp.MatchString(emailPattern, i)
-		if !(match) {
-			return errors.New("One of your emails is invalid")
-		}
+	if (!regexp.MustCompile(emailPattern).MatchString(f.Emails[0])) || (!regexp.MustCompile(emailPattern).MatchString(f.Emails[1])) {
+		return errors.New("One of your emails is invalid")
 	}
+
 	return nil
 }
