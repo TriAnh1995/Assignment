@@ -10,54 +10,50 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestImpl_CheckUserByEmail(t *testing.T) {
-
+func TestRepoImplement_CheckFriendship(t *testing.T) {
 	testCases := []struct {
 		Name          string
-		WantDBFail    bool
-		UserEmail     string
+		UserEmails    []string
 		ExpectedExist bool
 		ExpectedErr   error
+		WantDBFail    bool
 	}{
 		{
 			Name:          "Success",
-			WantDBFail:    false,
-			UserEmail:     "new-user-email@example.com",
+			UserEmails:    []string{"new_email_1@example.com", "new_email_2@example.com"},
 			ExpectedExist: false,
 			ExpectedErr:   nil,
+			WantDBFail:    false,
 		},
 		{
-			Name:          "User Already Exist",
-			WantDBFail:    false,
-			UserEmail:     "already-exist-email@example.com",
+			Name:          "Friendship already added",
+			UserEmails:    []string{"already_exist_email_1@example.com", "already_exist_email_2@example.com"},
 			ExpectedExist: true,
 			ExpectedErr:   nil,
+			WantDBFail:    false,
 		},
 		{
 			Name:          "Internal Server Error",
 			WantDBFail:    true,
-			UserEmail:     "internal-error-email@example.com",
+			UserEmails:    []string{"internal-error-email_1@example.com", "internal-error-email_2@example.com"},
 			ExpectedExist: false,
-			ExpectedErr:   InternalErrorCheckEmail,
+			ExpectedErr:   InternalErrorCheckFriendship,
 		},
 	}
 
 	ctx := context.Background()
-
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-
 			testdata.TestDatabase(t, func(tx *sql.Tx) {
 
-				testdata.LoadTestSQLFile(t, tx, "testdata/testdata_for_user_accounts.sql")
-
+				testdata.LoadTestSQLFile(t, tx, "testdata/testdata_for_friendship.sql")
 				repo := New(tx)
 				if tc.WantDBFail {
 					dbMock, _, _ := sqlmock.New()
 					repo = New(dbMock)
 				}
 
-				exists, err := repo.CheckUserByEmail(ctx, tc.UserEmail)
+				exists, err := repo.CheckFriendship(ctx, tc.UserEmails)
 
 				if err != nil {
 					require.EqualError(t, err, tc.ExpectedErr.Error())
