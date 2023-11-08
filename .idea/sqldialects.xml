@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/api/data/migration/0001_init.up.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/api/internal/repository/testdata/testdata_for_friendship.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/api/internal/repository/testdata/testdata_for_user_accounts.sql" dialect="GenericSQL" />
   </component>
 </project>
