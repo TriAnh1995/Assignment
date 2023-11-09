@@ -3,6 +3,8 @@ package controller
 import (
 	"database/sql"
 	"fmt"
+
+	_ "github.com/lib/pq"
 )
 
 func ConnectToDatabase() (*sql.DB, error) {
