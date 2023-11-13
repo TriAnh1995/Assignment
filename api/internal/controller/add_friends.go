@@ -2,11 +2,13 @@ package controller
 
 import (
 	"context"
-
-	"gorm.io/gorm"
 )
 
-func (i CTRLImplement) AddFriends(ctx context.Context, tx *gorm.DB, userEmails []string) error {
+func (i CTRLImplement) AddFriends(ctx context.Context, userEmails []string) error {
+	tx, err := ConnectToDatabase()
+	if err != nil {
+		return ServerError
+	}
 	// Start Business Logic
 	// Check whether ot not both users exists in db with for loop
 	for _, userEmail := range userEmails {
