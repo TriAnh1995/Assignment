@@ -14,6 +14,20 @@ type MockRepository struct {
 	mock.Mock
 }
 
+// AddFriendship provides a mock function with given fields: ctx, userEmails
+func (_m *MockRepository) AddFriendship(ctx context.Context, userEmails []string) error {
+	ret := _m.Called(ctx, userEmails)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, []string) error); ok {
+		r0 = rf(ctx, userEmails)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // AddUser provides a mock function with given fields: ctx, user
 func (_m *MockRepository) AddUser(ctx context.Context, user model.User) error {
 	ret := _m.Called(ctx, user)
@@ -26,6 +40,30 @@ func (_m *MockRepository) AddUser(ctx context.Context, user model.User) error {
 	}
 
 	return r0
+}
+
+// CheckFriendship provides a mock function with given fields: ctx, userEmails
+func (_m *MockRepository) CheckFriendship(ctx context.Context, userEmails []string) (bool, error) {
+	ret := _m.Called(ctx, userEmails)
+
+	var r0 bool
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, []string) (bool, error)); ok {
+		return rf(ctx, userEmails)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, []string) bool); ok {
+		r0 = rf(ctx, userEmails)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, []string) error); ok {
+		r1 = rf(ctx, userEmails)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // CheckUserByEmail provides a mock function with given fields: ctx, userEmails
