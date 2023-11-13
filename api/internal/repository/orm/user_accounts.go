@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/friendsofgo/errors"
+	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
@@ -23,52 +24,86 @@ import (
 
 // UserAccount is an object representing the database table.
 type UserAccount struct {
-	UserID int    `boil:"user_id" json:"user_id" toml:"user_id" yaml:"user_id"`
-	Name   string `boil:"name" json:"name" toml:"name" yaml:"name"`
-	Email  string `boil:"email" json:"email" toml:"email" yaml:"email"`
+	UserID    int         `boil:"user_id" json:"user_id" toml:"user_id" yaml:"user_id"`
+	Name      string      `boil:"name" json:"name" toml:"name" yaml:"name"`
+	Email     string      `boil:"email" json:"email" toml:"email" yaml:"email"`
+	Topic     string      `boil:"topic" json:"topic" toml:"topic" yaml:"topic"`
+	TopicBody null.String `boil:"topic_body" json:"topic_body,omitempty" toml:"topic_body" yaml:"topic_body,omitempty"`
 
 	R *userAccountR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L userAccountL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var UserAccountColumns = struct {
-	UserID string
-	Name   string
-	Email  string
+	UserID    string
+	Name      string
+	Email     string
+	Topic     string
+	TopicBody string
 }{
-	UserID: "user_id",
-	Name:   "name",
-	Email:  "email",
+	UserID:    "user_id",
+	Name:      "name",
+	Email:     "email",
+	Topic:     "topic",
+	TopicBody: "topic_body",
 }
 
 var UserAccountTableColumns = struct {
-	UserID string
-	Name   string
-	Email  string
+	UserID    string
+	Name      string
+	Email     string
+	Topic     string
+	TopicBody string
 }{
-	UserID: "user_accounts.user_id",
-	Name:   "user_accounts.name",
-	Email:  "user_accounts.email",
+	UserID:    "user_accounts.user_id",
+	Name:      "user_accounts.name",
+	Email:     "user_accounts.email",
+	Topic:     "user_accounts.topic",
+	TopicBody: "user_accounts.topic_body",
 }
 
 // Generated where
 
-type whereHelperint struct{ field string }
+type whereHelpernull_String struct{ field string }
 
-func (w whereHelperint) EQ(x int) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
-func (w whereHelperint) NEQ(x int) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
-func (w whereHelperint) LT(x int) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
-func (w whereHelperint) LTE(x int) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
-func (w whereHelperint) GT(x int) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
-func (w whereHelperint) GTE(x int) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
-func (w whereHelperint) IN(slice []int) qm.QueryMod {
+func (w whereHelpernull_String) EQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, false, x)
+}
+func (w whereHelpernull_String) NEQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, true, x)
+}
+func (w whereHelpernull_String) LT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LT, x)
+}
+func (w whereHelpernull_String) LTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LTE, x)
+}
+func (w whereHelpernull_String) GT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GT, x)
+}
+func (w whereHelpernull_String) GTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GTE, x)
+}
+func (w whereHelpernull_String) LIKE(x null.String) qm.QueryMod {
+	return qm.Where(w.field+" LIKE ?", x)
+}
+func (w whereHelpernull_String) NLIKE(x null.String) qm.QueryMod {
+	return qm.Where(w.field+" NOT LIKE ?", x)
+}
+func (w whereHelpernull_String) ILIKE(x null.String) qm.QueryMod {
+	return qm.Where(w.field+" ILIKE ?", x)
+}
+func (w whereHelpernull_String) NILIKE(x null.String) qm.QueryMod {
+	return qm.Where(w.field+" NOT ILIKE ?", x)
+}
+func (w whereHelpernull_String) IN(slice []string) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
 	}
 	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
 }
-func (w whereHelperint) NIN(slice []int) qm.QueryMod {
+func (w whereHelpernull_String) NIN(slice []string) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
@@ -76,41 +111,21 @@ func (w whereHelperint) NIN(slice []int) qm.QueryMod {
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
 }
 
-type whereHelperstring struct{ field string }
-
-func (w whereHelperstring) EQ(x string) qm.QueryMod     { return qmhelper.Where(w.field, qmhelper.EQ, x) }
-func (w whereHelperstring) NEQ(x string) qm.QueryMod    { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
-func (w whereHelperstring) LT(x string) qm.QueryMod     { return qmhelper.Where(w.field, qmhelper.LT, x) }
-func (w whereHelperstring) LTE(x string) qm.QueryMod    { return qmhelper.Where(w.field, qmhelper.LTE, x) }
-func (w whereHelperstring) GT(x string) qm.QueryMod     { return qmhelper.Where(w.field, qmhelper.GT, x) }
-func (w whereHelperstring) GTE(x string) qm.QueryMod    { return qmhelper.Where(w.field, qmhelper.GTE, x) }
-func (w whereHelperstring) LIKE(x string) qm.QueryMod   { return qm.Where(w.field+" LIKE ?", x) }
-func (w whereHelperstring) NLIKE(x string) qm.QueryMod  { return qm.Where(w.field+" NOT LIKE ?", x) }
-func (w whereHelperstring) ILIKE(x string) qm.QueryMod  { return qm.Where(w.field+" ILIKE ?", x) }
-func (w whereHelperstring) NILIKE(x string) qm.QueryMod { return qm.Where(w.field+" NOT ILIKE ?", x) }
-func (w whereHelperstring) IN(slice []string) qm.QueryMod {
-	values := make([]interface{}, 0, len(slice))
-	for _, value := range slice {
-		values = append(values, value)
-	}
-	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
-}
-func (w whereHelperstring) NIN(slice []string) qm.QueryMod {
-	values := make([]interface{}, 0, len(slice))
-	for _, value := range slice {
-		values = append(values, value)
-	}
-	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
-}
+func (w whereHelpernull_String) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
+func (w whereHelpernull_String) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
 
 var UserAccountWhere = struct {
-	UserID whereHelperint
-	Name   whereHelperstring
-	Email  whereHelperstring
+	UserID    whereHelperint
+	Name      whereHelperstring
+	Email     whereHelperstring
+	Topic     whereHelperstring
+	TopicBody whereHelpernull_String
 }{
-	UserID: whereHelperint{field: "\"user_accounts\".\"user_id\""},
-	Name:   whereHelperstring{field: "\"user_accounts\".\"name\""},
-	Email:  whereHelperstring{field: "\"user_accounts\".\"email\""},
+	UserID:    whereHelperint{field: "\"user_accounts\".\"user_id\""},
+	Name:      whereHelperstring{field: "\"user_accounts\".\"name\""},
+	Email:     whereHelperstring{field: "\"user_accounts\".\"email\""},
+	Topic:     whereHelperstring{field: "\"user_accounts\".\"topic\""},
+	TopicBody: whereHelpernull_String{field: "\"user_accounts\".\"topic_body\""},
 }
 
 // UserAccountRels is where relationship names are stored.
@@ -130,9 +145,9 @@ func (*userAccountR) NewStruct() *userAccountR {
 type userAccountL struct{}
 
 var (
-	userAccountAllColumns            = []string{"user_id", "name", "email"}
-	userAccountColumnsWithoutDefault = []string{"name", "email"}
-	userAccountColumnsWithDefault    = []string{"user_id"}
+	userAccountAllColumns            = []string{"user_id", "name", "email", "topic", "topic_body"}
+	userAccountColumnsWithoutDefault = []string{"name", "email", "topic"}
+	userAccountColumnsWithDefault    = []string{"user_id", "topic_body"}
 	userAccountPrimaryKeyColumns     = []string{"user_id"}
 	userAccountGeneratedColumns      = []string{}
 )

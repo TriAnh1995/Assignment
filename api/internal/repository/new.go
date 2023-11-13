@@ -10,6 +10,8 @@ import (
 type Repository interface {
 	AddUser(ctx context.Context, user model.User) error
 	CheckUserByEmail(ctx context.Context, userEmails string) (bool, error)
+	AddFriendship(ctx context.Context, userEmails []string) error
+	CheckFriendship(ctx context.Context, userEmails []string) (bool, error)
 }
 
 type RepoImplement struct {
