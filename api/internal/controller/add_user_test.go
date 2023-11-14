@@ -10,7 +10,6 @@ import (
 )
 
 func TestImpl_AddUsers(t *testing.T) {
-
 	type expectedCheckUserByEmail struct {
 		expectedExist bool
 		expectedErr   error
@@ -52,21 +51,17 @@ func TestImpl_AddUsers(t *testing.T) {
 		},
 	}
 
-	// Setup Instance
-	repo := &repository.MockRepository{}
-	ctrl := New(repo)
-	ctx := context.Background()
-
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-
+			// Setup Instance
+			repo := &repository.MockRepository{}
+			ctrl := New(repo)
+			ctx := context.Background()
 			// Defined mock Behaviors
 			repo.On("CheckUserByEmail", ctx, tc.input.Email).
 				Return(tc.expectedCheckUserByEmail.expectedExist, tc.expectedCheckUserByEmail.expectedErr)
-
 			repo.On("AddUser", ctx, tc.input).
 				Return(tc.expectedAddUserToDatabase)
-
 			// Run the Test
 			err := ctrl.AddUsers(ctx, tc.input)
 			// Check Result
