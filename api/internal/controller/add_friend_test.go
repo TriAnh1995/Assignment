@@ -57,7 +57,8 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 			expectedAddFriendship:    nil,
 			expectedErr:              FriendshipExisted,
 		},
-		{Name: "Server error from CheckFriendship",
+		{
+			Name:                     "Server error from CheckFriendship",
 			Input:                    []string{"firstuser@example.com", "seconduser@example.com"},
 			expectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},
 			expectedCheckFriendship:  expectedCheckFriendship{false, ServerError},
@@ -74,27 +75,24 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 		},
 	}
 
-	// Setup Instance
-	repo := &repository.MockRepository{}
-	ctrl := New(repo)
-	ctx := context.Background()
-
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-
+			// Setup Instance
+			repo := &repository.MockRepository{}
+			ctrl := New(repo)
+			ctx := context.Background()
+			// Defined mock Behaviors
 			for _, inputcase := range tc.Input {
 				repo.On("CheckUserByEmail", ctx, inputcase).
 					Return(tc.expectedCheckUserByEmail.expectedExist, tc.expectedCheckUserByEmail.expectedErr)
 			}
-
 			repo.On("CheckFriendship", ctx, tc.Input).
 				Return(tc.expectedCheckFriendship.expectedExist, tc.expectedCheckFriendship.expectedErr)
-
 			repo.On("AddFriendship", ctx, tc.Input).
 				Return(tc.expectedAddFriendship)
-
+			// Run the Test
 			err := ctrl.AddFriend(ctx, tc.Input)
-
+			// Check Result
 			if err != nil {
 				require.EqualError(t, err, tc.expectedErr.Error())
 			} else {
