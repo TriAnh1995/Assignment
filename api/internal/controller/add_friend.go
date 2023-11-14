@@ -7,7 +7,6 @@ import (
 )
 
 func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error {
-
 	tx, err := ConnectToDatabase()
 	defer func() {
 		if err != nil {
@@ -23,7 +22,6 @@ func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error
 			return UserNotFound
 		}
 	}
-
 	checkFriendshipExist, err := i.repo.CheckFriendship(ctx, userEmails)
 	if err != nil {
 		return ServerError
@@ -31,11 +29,6 @@ func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error
 	if checkFriendshipExist {
 		return FriendshipExisted
 	}
-
-	// check if subscription exist
-
-	// check if blocked
-
 	if err = i.repo.AddFriendship(ctx, userEmails); err != nil {
 		return ServerError
 	}
