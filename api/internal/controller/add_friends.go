@@ -8,7 +8,7 @@ import (
 
 func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error {
 	// Begin Transaction
-	err := i.gormDB.Transaction(func(*gorm.DB) error {
+	return i.gormDB.Transaction(func(*gorm.DB) error {
 		// Business Logic...
 		for _, userEmail := range userEmails {
 			checkEmailExist, err := i.repo.CheckUserByEmail(ctx, userEmail)
@@ -33,5 +33,4 @@ func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error
 		}
 		return nil
 	})
-	return err
 }
