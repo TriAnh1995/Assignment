@@ -3,16 +3,16 @@ package testdata
 import (
 	"context"
 	"database/sql"
-	_ "github.com/lib/pq"
-	"github.com/stretchr/testify/require"
 	"os"
 	"testing"
+
+	_ "github.com/lib/pq"
+	"github.com/stretchr/testify/require"
 )
 
 var appDB *sql.DB
 
 func TestDatabase(t *testing.T, testScenario func(tx *sql.Tx)) {
-
 	if appDB == nil {
 		var err error
 		appDB, err = sql.Open("postgres", "postgresql://test:@@localhost:5432/test?sslmode=disable")
@@ -21,9 +21,7 @@ func TestDatabase(t *testing.T, testScenario func(tx *sql.Tx)) {
 
 	tx, err := appDB.BeginTx(context.Background(), nil)
 	require.NoError(t, err)
-
 	defer tx.Rollback()
-
 	testScenario(tx)
 }
 

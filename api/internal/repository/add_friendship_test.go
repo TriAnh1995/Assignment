@@ -36,7 +36,6 @@ func TestRepoImplement_AddFriendship(t *testing.T) {
 			WantDBFail:  true,
 		},
 	}
-
 	ctx := context.Background()
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {

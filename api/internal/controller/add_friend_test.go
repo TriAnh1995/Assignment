@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+	_ "gorm.io/gorm"
 )
 
 func TestControllerImplement_AddFriend(t *testing.T) {
@@ -74,7 +75,6 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 			expectedErr:              ServerError,
 		},
 	}
-
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			// Setup Instance

@@ -58,13 +58,9 @@ func TestHandler_AddFriend(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-
 			// Create new Request
-
 			reqBody := []byte(fmt.Sprintf(tc.requestinput, tc.request[0], tc.request[1]))
-
 			req := httptest.NewRequest(http.MethodPost, "/friends", bytes.NewBuffer(reqBody))
-
 			req.Header.Set("Content-Type", "application/json")
 
 			// Set up a record to the response from handler
@@ -72,13 +68,11 @@ func TestHandler_AddFriend(t *testing.T) {
 
 			// Setup and defined mock behavior
 			ctrl := new(controller.MockController)
-
 			ctrl.On("AddFriend", req.Context(), tc.request).
 				Return(tc.expectedCtrl)
 
 			// Setup instance to use mock file in test
 			instance := New(ctrl)
-
 			handler := instance.AddFriend()
 
 			// Create context for test, and pass Request for it

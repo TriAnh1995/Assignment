@@ -16,5 +16,7 @@ type CTRLImplement struct {
 }
 
 func New(repo repository.Repository) Controller {
-	return CTRLImplement{repo}
+	return CTRLImplement{
+		repo: repo,
+	}
 }
