@@ -4,6 +4,8 @@ import (
 	"assignment/internal/model"
 	"assignment/internal/repository"
 	"context"
+
+	"gorm.io/gorm"
 )
 
 type Controller interface {
@@ -12,13 +14,13 @@ type Controller interface {
 }
 
 type CTRLImplement struct {
-	repo repository.Repository
+	repo   repository.Repository
+	gormDB *gorm.DB
 }
 
-func New(repo repository.Repository) Controller {
-	return CTRLImplement{repo}
-}
-
-func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error {
-	return nil
+func New(repo repository.Repository, gormDB *gorm.DB) Controller {
+	return CTRLImplement{
+		repo:   repo,
+		gormDB: gormDB,
+	}
 }
