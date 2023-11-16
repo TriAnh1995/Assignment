@@ -27,6 +27,7 @@ func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error
 		if checkFriendshipExist {
 			return FriendshipExisted
 		}
+
 		if err = i.repo.AddFriendship(ctx, userEmails); err != nil {
 			return ServerError
 		}
