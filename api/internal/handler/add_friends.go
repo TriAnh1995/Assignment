@@ -17,12 +17,10 @@ func (h Handler) AddFriend() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get your information"})
 			return
 		}
-
 		if err := input.validate(); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-
 		if err := h.ctrl.AddFriend(c.Request.Context(), input.Emails); err != nil {
 			CustomError(c, err)
 			return

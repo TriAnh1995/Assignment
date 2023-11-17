@@ -82,8 +82,8 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 			ctrl := New(repo)
 			ctx := context.Background()
 			// Defined mock Behaviors
-			for _, inputcase := range tc.Input {
-				repo.On("CheckUserByEmail", ctx, inputcase).
+			for _, inputCase := range tc.Input {
+				repo.On("CheckUserByEmail", ctx, inputCase).
 					Return(tc.expectedCheckUserByEmail.expectedExist, tc.expectedCheckUserByEmail.expectedErr)
 			}
 			repo.On("CheckFriendship", ctx, tc.Input).
@@ -96,7 +96,7 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 			if err != nil {
 				require.EqualError(t, err, tc.expectedErr.Error())
 			} else {
-				require.NoError(t, tc.expectedErr)
+				require.Equal(t, err, tc.expectedErr)
 			}
 		})
 	}

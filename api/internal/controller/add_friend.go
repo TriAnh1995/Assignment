@@ -7,11 +7,11 @@ import (
 )
 
 func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error {
-	newTransaction, err := GormConnection()
+	tx, err := GormConnection()
 	if err != nil {
 		return ServerError
 	}
-	return newTransaction.Transaction(func(*gorm.DB) error {
+	return tx.Transaction(func(db *gorm.DB) error {
 		for _, userEmail := range userEmails {
 			checkEmailExist, err := i.repo.CheckUserByEmail(ctx, userEmail)
 			if err != nil {
@@ -29,9 +29,6 @@ func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error
 			return FriendshipExisted
 		}
 		if err = i.repo.AddFriendship(ctx, userEmails); err != nil {
-			return ServerError
-		}
-		if err = newTransaction.Commit().Error; err != nil {
 			return ServerError
 		}
 		return nil
