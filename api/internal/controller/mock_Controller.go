@@ -14,8 +14,8 @@ type MockController struct {
 	mock.Mock
 }
 
-// AddFriend provides a mock function with given fields: _a0, _a1
-func (_m *MockController) AddFriend(_a0 context.Context, _a1 []string) error {
+// AddFriends provides a mock function with given fields: _a0, _a1
+func (_m *MockController) AddFriends(_a0 context.Context, _a1 []string) error {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 error

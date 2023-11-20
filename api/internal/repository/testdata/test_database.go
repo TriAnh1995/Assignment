@@ -3,10 +3,11 @@ package testdata
 import (
 	"context"
 	"database/sql"
-	_ "github.com/lib/pq"
-	"github.com/stretchr/testify/require"
 	"os"
 	"testing"
+
+	_ "github.com/lib/pq"
+	"github.com/stretchr/testify/require"
 )
 
 var appDB *sql.DB
