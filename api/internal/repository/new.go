@@ -8,8 +8,8 @@ import (
 )
 
 type Repository interface {
-	AddUser(ctx context.Context, user model.User) error
-	CheckUserByEmail(ctx context.Context, userEmails string) (bool, error)
+	AddUser(context.Context, model.User) error
+	CheckUserByEmail(context.Context, string) (bool, error)
 	AddFriendship(context.Context, []string) error
 	CheckFriendship(context.Context, []string) (bool, error)
 }
