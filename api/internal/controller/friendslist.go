@@ -14,12 +14,13 @@ func (i CTRLImplement) FriendsList(ctx context.Context, userEmail string) (model
 	if !userExists {
 		return model.FriendshipInfo{}, UserNotFound
 	}
-
+	//Using FriendshipInfo model for the output
 	var FriendsInfo model.FriendshipInfo
-
+	//Get the list of friends from repository
 	if FriendsInfo.List, err = i.repo.GetFriendsList(ctx, userEmail); err != nil {
 		return model.FriendshipInfo{}, ServerError
 	}
+	//The length of the list is the number of friends
 	FriendsInfo.Amounts = len(FriendsInfo.List)
 
 	return FriendsInfo, nil
