@@ -26,6 +26,5 @@ func (h Handler) AddFriend() gin.HandlerFunc {
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"message": "Add friend successfully!"})
-
 	}
 }
