@@ -5,7 +5,7 @@ import (
 	"context"
 )
 
-// GetFriendsList GetFriendList retrieve a list of friend names a user have
+// GetFriendsList retrieve a list of friend names a user have
 func (i RepoImplement) GetFriendsList(ctx context.Context, userEmail string) ([]string, error) {
 	var listOfFriends []string
 	friends1, err := orm.Friendships(
