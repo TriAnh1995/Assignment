@@ -21,7 +21,7 @@
 ### API ENDPOINTS(localhost:3000)
 1. Create User:
    + Using your preferred browser or api call tools such as (Postman or Swagger) to trigger api call
-   + Path: localhost:3000/users
+   * Path: localhost:3000/users
    + Method: Post.
 
     Example:
@@ -29,3 +29,14 @@
         "name":"test",
         "email":"test@example.com"
    }
+
+   * Path: localhost:3000/friends
+   + Method: Post.
+
+    Example:
+    { "friends" 
+        [
+            "test1@example.com",
+            "test2@example.com"
+        ]
+    }

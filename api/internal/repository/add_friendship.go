@@ -13,7 +13,6 @@ func (i RepoImplement) AddFriendship(ctx context.Context, firstEmail, secondEmai
 		UserEmail1: firstEmail,
 		UserEmail2: secondEmail,
 	}
-
 	err := createFriendShip.Insert(ctx, i.pgConn, boil.Infer())
 	return err
 }

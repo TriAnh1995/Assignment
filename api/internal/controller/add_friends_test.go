@@ -57,7 +57,8 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 			expectedAddFriendship:    nil,
 			expectedErr:              FriendshipExisted,
 		},
-		{Name: "Server error from CheckFriendship",
+		{
+			Name:                     "Server error from CheckFriendship",
 			Input:                    []string{"firstuser@example.com", "seconduser@example.com"},
 			expectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},
 			expectedCheckFriendship:  expectedCheckFriendship{false, ServerError},
@@ -82,8 +83,8 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 			ctx := context.Background()
 
 			// Defined mock Behaviors
-			for _, inputcase := range tc.Input {
-				repo.On("CheckUserByEmail", ctx, inputcase).
+			for _, inputCase := range tc.Input {
+				repo.On("CheckUserByEmail", ctx, inputCase).
 					Return(tc.expectedCheckUserByEmail.expectedExist, tc.expectedCheckUserByEmail.expectedErr)
 			}
 			repo.On("CheckFriendship", ctx, tc.Input).
