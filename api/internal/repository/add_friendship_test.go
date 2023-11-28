@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"assignment/internal/model"
 	"assignment/internal/repository/testdata"
 	"context"
 	"database/sql"
@@ -11,51 +10,45 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestImpl_AddUserToDatabase(t *testing.T) {
-
+func TestRepoImplement_AddFriendship(t *testing.T) {
 	testCases := []struct {
 		Name        string
-		User        model.User
+		UserEmails  []string
 		ExpectedErr error
 		WantDBFail  bool
 	}{
 		{
 			Name:        "Success",
-			User:        model.User{Name: "NewUser", Email: "new-user-email@example.com"},
+			UserEmails:  []string{"new_email_1@example.com", "new_email_2@example.com"},
 			ExpectedErr: nil,
 			WantDBFail:  false,
 		},
 		{
-			Name:        "Error",
-			User:        model.User{Name: "AlreadyExistUser", Email: "already-exist-email@example.com"},
-			ExpectedErr: UserAlreadyExist,
+			Name:        "Already Exist Friendship",
+			UserEmails:  []string{"already_exist_email_1@example.com", "already_exist_email_2@example.com"},
+			ExpectedErr: FriendshipAlreadyExist,
 			WantDBFail:  false,
 		},
 		{
 			Name:        "Internal Server Error",
-			User:        model.User{Name: "InternalErrorUser", Email: "internal-error-email@example.com"},
-			ExpectedErr: InternalErrorAddUser,
+			UserEmails:  []string{"internal-error-email_1@example.com", "internal-error-email_2@example.com"},
+			ExpectedErr: InternalErrorAddFriendship,
 			WantDBFail:  true,
 		},
 	}
 
 	ctx := context.Background()
-
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-
 			testdata.TestDatabase(t, func(tx *sql.Tx) {
-
-				testdata.LoadTestSQLFile(t, tx, "testdata/testdata_for_user_accounts.sql")
-
+				testdata.LoadTestSQLFile(t, tx, "testdata/testdata_for_friendship.sql")
 				repo := New(tx)
-
 				if tc.WantDBFail {
 					dbMock, _, _ := sqlmock.New()
 					repo = New(dbMock)
 				}
 
-				err := repo.AddUser(ctx, tc.User)
+				err := repo.AddFriendship(ctx, tc.UserEmails[0], tc.UserEmails[1])
 
 				if err != nil {
 					require.EqualError(t, err, tc.ExpectedErr.Error())

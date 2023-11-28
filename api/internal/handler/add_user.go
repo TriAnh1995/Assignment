@@ -13,7 +13,6 @@ type User struct {
 }
 
 func (h Handler) AddUsers() gin.HandlerFunc {
-
 	return func(c *gin.Context) {
 		var input User
 		if err := c.ShouldBindJSON(&input); err != nil {
@@ -35,6 +34,5 @@ func (h Handler) AddUsers() gin.HandlerFunc {
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"message": "Add user successfully!"})
-
 	}
 }

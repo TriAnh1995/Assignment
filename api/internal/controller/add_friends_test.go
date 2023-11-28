@@ -89,7 +89,7 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 			repo.On("CheckFriendship", ctx, tc.Input).
 				Return(tc.expectedCheckFriendship.expectedExist, tc.expectedCheckFriendship.expectedErr)
 
-			repo.On("AddFriendship", ctx, tc.Input).
+			repo.On("AddFriendship", ctx, tc.Input[0], tc.Input[1]).
 				Return(tc.expectedAddFriendship)
 
 			// Run the Test

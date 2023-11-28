@@ -43,7 +43,7 @@ func TestHandler_AddFriend(t *testing.T) {
 			requestinput:    `{"friends": ["%s", "%s"]}`,
 			request:         []string{"firstuser@example.com", "firstuser@example.com"},
 			expectedCtrl:    nil,
-			expectedRespond: "{\"error\":\"Please insert at least two different emails\"}",
+			expectedRespond: "{\"error\":\"Please insert two different emails\"}",
 			expectedStatus:  400,
 		},
 		{
@@ -73,7 +73,7 @@ func TestHandler_AddFriend(t *testing.T) {
 			// Setup and defined mock behavior
 			ctrl := new(controller.MockController)
 
-			ctrl.On("AddFriend", req.Context(), tc.request).
+			ctrl.On("AddFriends", req.Context(), tc.request).
 				Return(tc.expectedCtrl)
 
 			// Setup instance to use mock file in test
