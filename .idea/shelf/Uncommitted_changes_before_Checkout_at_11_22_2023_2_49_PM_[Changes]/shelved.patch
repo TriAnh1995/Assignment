@@ -1,0 +1,46 @@
+Index: api/internal/controller/add_friends.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller\r\n\r\nimport (\r\n\t\"context\"\r\n\r\n\t\"gorm.io/gorm\"\r\n)\r\n\r\nfunc (i CTRLImplement) AddFriends(ctx context.Context, userEmails []string) error {\r\n\ttx, err := ConnectToDatabase()\r\n\tif err != nil {\r\n\t\treturn ServerError\r\n\t}\r\n\treturn tx.Transaction(func(*gorm.DB) error {\r\n\t\t// Start Business Logic\r\n\t\t// Check whether ot not both users exists in db with for loop\r\n\t\tfor _, userEmail := range userEmails {\r\n\t\t\tcheckEmailExist, err := i.repo.CheckUserByEmail(ctx, userEmail)\r\n\t\t\tif err != nil {\r\n\t\t\t\treturn ServerError\r\n\t\t\t}\r\n\t\t\tif !checkEmailExist {\r\n\t\t\t\treturn UserNotFound\r\n\t\t\t}\r\n\t\t}\r\n\t\t// Check if both user already friends in db\r\n\t\tcheckFriendshipExist, err := i.repo.CheckFriendship(ctx, userEmails)\r\n\t\tif err != nil {\r\n\t\t\treturn ServerError\r\n\t\t}\r\n\t\tif checkFriendshipExist {\r\n\t\t\treturn FriendshipExisted\r\n\t\t}\r\n\t\t// Add friendship to db\r\n\t\tif err = i.repo.AddFriendship(ctx, userEmails); err != nil {\r\n\t\t\treturn ServerError\r\n\t\t}\r\n\t\treturn nil\r\n\t})\r\n}\r\n
+===================================================================
+diff --git a/api/internal/controller/add_friends.go b/api/internal/controller/add_friends.go
+--- a/api/internal/controller/add_friends.go	
++++ b/api/internal/controller/add_friends.go	
+@@ -11,7 +11,7 @@
+ 	if err != nil {
+ 		return ServerError
+ 	}
+-	return tx.Transaction(func(*gorm.DB) error {
++	return tx.Transaction(func(gormDB *gorm.DB) error {
+ 		// Start Business Logic
+ 		// Check whether ot not both users exists in db with for loop
+ 		for _, userEmail := range userEmails {
+Index: api/internal/controller/add_friends_test.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller\r\n\r\nimport (\r\n\t\"assignment/internal/repository\"\r\n\t\"context\"\r\n\t\"testing\"\r\n\r\n\t\"github.com/stretchr/testify/require\"\r\n)\r\n\r\nfunc TestControllerImplement_AddFriend(t *testing.T) {\r\n\ttype expectedCheckUserByEmail struct {\r\n\t\texpectedExist bool\r\n\t\texpectedErr   error\r\n\t}\r\n\ttype expectedCheckFriendship struct {\r\n\t\texpectedExist bool\r\n\t\texpectedErr   error\r\n\t}\r\n\ttestCases := []struct {\r\n\t\tName  string\r\n\t\tInput []string\r\n\t\texpectedCheckUserByEmail\r\n\t\texpectedCheckFriendship\r\n\t\texpectedAddFriendship error\r\n\t\texpectedErr           error\r\n\t}{\r\n\t\t{\r\n\t\t\tName:                     \"Success\",\r\n\t\t\tInput:                    []string{\"firstuser@example.com\", \"seconduser@example.com\"},\r\n\t\t\texpectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},\r\n\t\t\texpectedCheckFriendship:  expectedCheckFriendship{false, nil},\r\n\t\t\texpectedAddFriendship:    nil,\r\n\t\t\texpectedErr:              nil,\r\n\t\t},\r\n\t\t{\r\n\t\t\tName:                     \"User Email not found\",\r\n\t\t\tInput:                    []string{\"firstuser@example.com\", \"seconduser@example.com\"},\r\n\t\t\texpectedCheckUserByEmail: expectedCheckUserByEmail{false, nil},\r\n\t\t\texpectedCheckFriendship:  expectedCheckFriendship{false, nil},\r\n\t\t\texpectedAddFriendship:    nil,\r\n\t\t\texpectedErr:              UserNotFound,\r\n\t\t},\r\n\t\t{\r\n\t\t\tName:                     \"Server error from CheckUserByEmail\",\r\n\t\t\tInput:                    []string{\"firstuser@example.com\", \"seconduser@example.com\"},\r\n\t\t\texpectedCheckUserByEmail: expectedCheckUserByEmail{true, ServerError},\r\n\t\t\texpectedCheckFriendship:  expectedCheckFriendship{false, nil},\r\n\t\t\texpectedAddFriendship:    nil,\r\n\t\t\texpectedErr:              ServerError,\r\n\t\t},\r\n\t\t{\r\n\t\t\tName:                     \"Friendship already added\",\r\n\t\t\tInput:                    []string{\"firstuser@example.com\", \"seconduser@example.com\"},\r\n\t\t\texpectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},\r\n\t\t\texpectedCheckFriendship:  expectedCheckFriendship{true, nil},\r\n\t\t\texpectedAddFriendship:    nil,\r\n\t\t\texpectedErr:              FriendshipExisted,\r\n\t\t},\r\n\t\t{Name: \"Server error from CheckFriendship\",\r\n\t\t\tInput:                    []string{\"firstuser@example.com\", \"seconduser@example.com\"},\r\n\t\t\texpectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},\r\n\t\t\texpectedCheckFriendship:  expectedCheckFriendship{false, ServerError},\r\n\t\t\texpectedAddFriendship:    nil,\r\n\t\t\texpectedErr:              ServerError,\r\n\t\t},\r\n\t\t{\r\n\t\t\tName:                     \"Server error from AddFriendship\",\r\n\t\t\tInput:                    []string{\"firstuser@example.com\", \"seconduser@example.com\"},\r\n\t\t\texpectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},\r\n\t\t\texpectedCheckFriendship:  expectedCheckFriendship{false, nil},\r\n\t\t\texpectedAddFriendship:    ServerError,\r\n\t\t\texpectedErr:              ServerError,\r\n\t\t},\r\n\t}\r\n\r\n\tfor _, tc := range testCases {\r\n\t\tt.Run(tc.Name, func(t *testing.T) {\r\n\t\t\t// Setup Instance\r\n\t\t\trepo := &repository.MockRepository{}\r\n\t\t\tctrl := New(repo)\r\n\t\t\tctx := context.Background()\r\n\r\n\t\t\t// Defined mock Behaviors\r\n\t\t\tfor _, inputcase := range tc.Input {\r\n\t\t\t\trepo.On(\"CheckUserByEmail\", ctx, inputcase).\r\n\t\t\t\t\tReturn(tc.expectedCheckUserByEmail.expectedExist, tc.expectedCheckUserByEmail.expectedErr)\r\n\t\t\t}\r\n\t\t\trepo.On(\"CheckFriendship\", ctx, tc.Input).\r\n\t\t\t\tReturn(tc.expectedCheckFriendship.expectedExist, tc.expectedCheckFriendship.expectedErr)\r\n\r\n\t\t\trepo.On(\"AddFriendship\", ctx, tc.Input).\r\n\t\t\t\tReturn(tc.expectedAddFriendship)\r\n\r\n\t\t\t// Run the Test\r\n\t\t\terr := ctrl.AddFriends(ctx, tc.Input)\r\n\r\n\t\t\t// Check Result\r\n\t\t\tif err != nil {\r\n\t\t\t\trequire.EqualError(t, err, tc.expectedErr.Error())\r\n\t\t\t} else {\r\n\t\t\t\trequire.NoError(t, tc.expectedErr)\r\n\t\t\t}\r\n\r\n\t\t})\r\n\t}\r\n}\r\n
+===================================================================
+diff --git a/api/internal/controller/add_friends_test.go b/api/internal/controller/add_friends_test.go
+--- a/api/internal/controller/add_friends_test.go	
++++ b/api/internal/controller/add_friends_test.go	
+@@ -57,7 +57,8 @@
+ 			expectedAddFriendship:    nil,
+ 			expectedErr:              FriendshipExisted,
+ 		},
+-		{Name: "Server error from CheckFriendship",
++		{
++			Name:                     "Server error from CheckFriendship",
+ 			Input:                    []string{"firstuser@example.com", "seconduser@example.com"},
+ 			expectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},
+ 			expectedCheckFriendship:  expectedCheckFriendship{false, ServerError},
+@@ -82,8 +83,8 @@
+ 			ctx := context.Background()
+ 
+ 			// Defined mock Behaviors
+-			for _, inputcase := range tc.Input {
+-				repo.On("CheckUserByEmail", ctx, inputcase).
++			for _, inputCase := range tc.Input {
++				repo.On("CheckUserByEmail", ctx, inputCase).
+ 					Return(tc.expectedCheckUserByEmail.expectedExist, tc.expectedCheckUserByEmail.expectedErr)
+ 			}
+ 			repo.On("CheckFriendship", ctx, tc.Input).

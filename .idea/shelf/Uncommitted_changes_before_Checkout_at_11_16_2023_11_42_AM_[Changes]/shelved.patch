@@ -1,0 +1,30 @@
+Index: api/internal/controller/add_friend.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller\r\n\r\nimport (\r\n\t\"context\"\r\n\r\n\t\"gorm.io/gorm\"\r\n)\r\n\r\nfunc (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error {\r\n\terr := i.gormDB.Transaction(func(*gorm.DB) error {\r\n\t\tfor _, userEmail := range userEmails {\r\n\t\t\tcheckEmailExist, err := i.repo.CheckUserByEmail(ctx, userEmail)\r\n\t\t\tif err != nil {\r\n\t\t\t\treturn ServerError\r\n\t\t\t}\r\n\t\t\tif !checkEmailExist {\r\n\t\t\t\treturn UserNotFound\r\n\t\t\t}\r\n\t\t}\r\n\r\n\t\tcheckFriendshipExist, err := i.repo.CheckFriendship(ctx, userEmails)\r\n\t\tif err != nil {\r\n\t\t\treturn ServerError\r\n\t\t}\r\n\t\tif checkFriendshipExist {\r\n\t\t\treturn FriendshipExisted\r\n\t\t}\r\n\r\n\t\tif err = i.repo.AddFriendship(ctx, userEmails); err != nil {\r\n\t\t\treturn ServerError\r\n\t\t}\r\n\t\tif err = i.gormDB.Commit().Error; err != nil {\r\n\t\t\treturn ServerError\r\n\t\t}\r\n\t\treturn nil\r\n\t})\r\n\treturn err\r\n}\r\n
+===================================================================
+diff --git a/api/internal/controller/add_friend.go b/api/internal/controller/add_friend.go
+--- a/api/internal/controller/add_friend.go	
++++ b/api/internal/controller/add_friend.go	
+@@ -17,7 +17,6 @@
+ 				return UserNotFound
+ 			}
+ 		}
+-
+ 		checkFriendshipExist, err := i.repo.CheckFriendship(ctx, userEmails)
+ 		if err != nil {
+ 			return ServerError
+@@ -25,13 +24,9 @@
+ 		if checkFriendshipExist {
+ 			return FriendshipExisted
+ 		}
+-
+ 		if err = i.repo.AddFriendship(ctx, userEmails); err != nil {
+ 			return ServerError
+ 		}
+-		if err = i.gormDB.Commit().Error; err != nil {
+-			return ServerError
+-		}
+ 		return nil
+ 	})
+ 	return err

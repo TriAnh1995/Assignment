@@ -1,0 +1,42 @@
+Index: api/internal/controller/new.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller\r\n\r\nimport (\r\n\t\"assignment/internal/model\"\r\n\t\"assignment/internal/repository\"\r\n\t\"context\"\r\n)\r\n\r\ntype Controller interface {\r\n\tAddUsers(context.Context, model.User) error\r\n\tAddFriend(context.Context, []string) error\r\n}\r\n\r\ntype CTRLImplement struct {\r\n\trepo repository.Repository\r\n}\r\n\r\nfunc New(repo repository.Repository) Controller {\r\n\treturn CTRLImplement{repo}\r\n}\r\n\r\nfunc (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error {\r\n\treturn nil\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/api/internal/controller/new.go b/api/internal/controller/new.go
+--- a/api/internal/controller/new.go	
++++ b/api/internal/controller/new.go	
+@@ -9,6 +9,7 @@
+ type Controller interface {
+ 	AddUsers(context.Context, model.User) error
+ 	AddFriend(context.Context, []string) error
++	FriendsList(ctx context.Context, userEmail string) (model.FriendshipInfo, error)
+ }
+ 
+ type CTRLImplement struct {
+@@ -22,3 +23,7 @@
+ func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error {
+ 	return nil
+ }
++
++func (i CTRLImplement) FriendsList(ctx context.Context, userEmail string) (model.FriendshipInfo, error) {
++	return model.FriendshipInfo{}, nil
++}
+Index: api/cmd/routes/routes.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package routes\r\n\r\nimport (\r\n\t\"assignment/internal/handler\"\r\n\r\n\t\"github.com/gin-gonic/gin\"\r\n)\r\n\r\ntype Route struct {\r\n\th handler.Handler\r\n}\r\n\r\nfunc (r Route) Routes(rtr *gin.Engine) {\r\n\trtr.POST(\"/users\", r.h.AddUsers())\r\n\trtr.POST(\"/friends\", r.h.AddFriend())\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/api/cmd/routes/routes.go b/api/cmd/routes/routes.go
+--- a/api/cmd/routes/routes.go	
++++ b/api/cmd/routes/routes.go	
+@@ -13,4 +13,5 @@
+ func (r Route) Routes(rtr *gin.Engine) {
+ 	rtr.POST("/users", r.h.AddUsers())
+ 	rtr.POST("/friends", r.h.AddFriend())
++	rtr.GET("/friends/friendslist", r.h.FriendsList())
+ }

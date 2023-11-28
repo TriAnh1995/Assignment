@@ -1,0 +1,108 @@
+Index: api/internal/controller/connect_to_database.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller\r\n\r\nimport (\r\n\t\"fmt\"\r\n\r\n\t\"gorm.io/driver/postgres\"\r\n\t\"gorm.io/gorm\"\r\n)\r\n\r\nfunc ConnectToDatabase() (*gorm.DB, error) {\r\n\tdsn := fmt.Sprintf(\r\n\t\t\"user=%s password=%s dbname=%s sslmode=disable\",\r\n\t\t\"test\", \"\", \"test\")\r\n\r\n\tdb, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})\r\n\tif err != nil {\r\n\t\treturn nil, err\r\n\t}\r\n\r\n\treturn db, nil\r\n}\r\n
+===================================================================
+diff --git a/api/internal/controller/connect_to_database.go b/api/internal/controller/connect_to_database.go
+--- a/api/internal/controller/connect_to_database.go	
++++ b/api/internal/controller/connect_to_database.go	
+@@ -14,8 +14,7 @@
+ 
+ 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+ 	if err != nil {
+-		return nil, err
++		return nil, ServerError
+ 	}
+-
+ 	return db, nil
+ }
+Index: api/internal/controller/add_friends.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller\r\n\r\nimport (\r\n\t\"context\"\r\n)\r\n\r\nfunc (i CTRLImplement) AddFriends(ctx context.Context, userEmails []string) error {\r\n\ttx, err := ConnectToDatabase()\r\n\tif err != nil {\r\n\t\treturn ServerError\r\n\t}\r\n\t// Start Business Logic\r\n\t// Check whether ot not both users exists in db with for loop\r\n\tfor _, userEmail := range userEmails {\r\n\t\tcheckEmailExist, err := i.repo.CheckUserByEmail(ctx, userEmail)\r\n\t\tif err != nil {\r\n\t\t\ttx.Rollback()\r\n\t\t\treturn ServerError\r\n\t\t}\r\n\t\tif !checkEmailExist {\r\n\t\t\ttx.Rollback()\r\n\t\t\treturn UserNotFound\r\n\t\t}\r\n\t}\r\n\r\n\t// Check if both user already friends in db\r\n\tcheckFriendshipExist, err := i.repo.CheckFriendship(ctx, userEmails)\r\n\tif err != nil {\r\n\t\ttx.Rollback()\r\n\t\treturn ServerError\r\n\t}\r\n\tif checkFriendshipExist {\r\n\t\ttx.Rollback()\r\n\t\treturn FriendshipExisted\r\n\t}\r\n\r\n\t// Add friendship to db\r\n\tif err = i.repo.AddFriendship(ctx, userEmails); err != nil {\r\n\t\ttx.Rollback()\r\n\t\treturn ServerError\r\n\t}\r\n\r\n\t// Commit to transaction\r\n\ttx.Commit()\r\n\treturn nil\r\n}\r\n
+===================================================================
+diff --git a/api/internal/controller/add_friends.go b/api/internal/controller/add_friends.go
+--- a/api/internal/controller/add_friends.go	
++++ b/api/internal/controller/add_friends.go	
+@@ -2,6 +2,8 @@
+ 
+ import (
+ 	"context"
++
++	"gorm.io/gorm"
+ )
+ 
+ func (i CTRLImplement) AddFriends(ctx context.Context, userEmails []string) error {
+@@ -9,38 +11,40 @@
+ 	if err != nil {
+ 		return ServerError
+ 	}
+-	// Start Business Logic
+-	// Check whether ot not both users exists in db with for loop
+-	for _, userEmail := range userEmails {
+-		checkEmailExist, err := i.repo.CheckUserByEmail(ctx, userEmail)
+-		if err != nil {
+-			tx.Rollback()
+-			return ServerError
+-		}
+-		if !checkEmailExist {
+-			tx.Rollback()
+-			return UserNotFound
+-		}
+-	}
+-
+-	// Check if both user already friends in db
+-	checkFriendshipExist, err := i.repo.CheckFriendship(ctx, userEmails)
+-	if err != nil {
+-		tx.Rollback()
+-		return ServerError
+-	}
+-	if checkFriendshipExist {
+-		tx.Rollback()
+-		return FriendshipExisted
+-	}
++	err = tx.Transaction(func(tx *gorm.DB) error {
++		// Start Business Logic
++		// Check whether ot not both users exists in db with for loop
++		for _, userEmail := range userEmails {
++			checkEmailExist, err := i.repo.CheckUserByEmail(ctx, userEmail)
++			if err != nil {
++				return ServerError
++			}
++			if !checkEmailExist {
++				return UserNotFound
++			}
++		}
++		// Check if both user already friends in db
++		checkFriendshipExist, err := i.repo.CheckFriendship(ctx, userEmails)
++		if err != nil {
++			return ServerError
++		}
++		if checkFriendshipExist {
++			return FriendshipExisted
++		}
+ 
+-	// Add friendship to db
+-	if err = i.repo.AddFriendship(ctx, userEmails); err != nil {
+-		tx.Rollback()
+-		return ServerError
+-	}
+-
+-	// Commit to transaction
+-	tx.Commit()
++		// Add friendship to db
++		if err = i.repo.AddFriendship(ctx, userEmails); err != nil {
++			return ServerError
++		}
++		// Commit to transaction
++		return nil
++	})
++	if err != nil {
++		tx.Rollback()
++		return err
++	}
++	if err = tx.Commit().Error; err != nil {
++		return ServerError
++	}
+ 	return nil
+ }

@@ -1,0 +1,19 @@
+Index: api/internal/repository/add_friendship.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package repository\r\n\r\nimport (\r\n\t\"assignment/internal/repository/orm\"\r\n\t\"context\"\r\n\r\n\t\"github.com/volatiletech/sqlboiler/v4/boil\"\r\n)\r\n\r\n// AddFriendship insert two usernames to friendship table in db\r\nfunc (i RepoImplement) AddFriendship(ctx context.Context, userEmails []string) error {\r\n\tcreateFriendShip := &orm.Friendship{\r\n\t\tUserEmail1: userEmails[0],\r\n\t\tUserEmail2: userEmails[1],\r\n\t}\r\n\r\n\terr := createFriendShip.Insert(ctx, i.pgConn, boil.Infer())\r\n\treturn err\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/api/internal/repository/add_friendship.go b/api/internal/repository/add_friendship.go
+--- a/api/internal/repository/add_friendship.go	(revision 5ff8bda1df0c8d37fd35cf24598d72356f007840)
++++ b/api/internal/repository/add_friendship.go	(date 1700720297523)
+@@ -13,7 +13,5 @@
+ 		UserEmail1: userEmails[0],
+ 		UserEmail2: userEmails[1],
+ 	}
+-
+-	err := createFriendShip.Insert(ctx, i.pgConn, boil.Infer())
+-	return err
++	return createFriendShip.Insert(ctx, i.pgConn, boil.Infer())
+ }

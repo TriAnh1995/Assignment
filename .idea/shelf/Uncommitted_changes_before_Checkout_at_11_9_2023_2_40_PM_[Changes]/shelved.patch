@@ -1,0 +1,58 @@
+Index: api/internal/repository/testdata/test_database.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package testdata\r\n\r\nimport (\r\n\t\"context\"\r\n\t\"database/sql\"\r\n\t_ \"github.com/lib/pq\"\r\n\t\"github.com/stretchr/testify/require\"\r\n\t\"os\"\r\n\t\"testing\"\r\n)\r\n\r\nvar appDB *sql.DB\r\n\r\nfunc TestDatabase(t *testing.T, testScenario func(tx *sql.Tx)) {\r\n\r\n\tif appDB == nil {\r\n\t\tvar err error\r\n\t\tappDB, err = sql.Open(\"postgres\", \"postgresql://test:@@localhost:5432/test?sslmode=disable\")\r\n\t\trequire.NoError(t, err)\r\n\t}\r\n\r\n\ttx, err := appDB.BeginTx(context.Background(), nil)\r\n\trequire.NoError(t, err)\r\n\r\n\tdefer tx.Rollback()\r\n\r\n\ttestScenario(tx)\r\n}\r\n\r\nfunc LoadTestSQLFile(t *testing.T, db *sql.Tx, file string) {\r\n\tscript, err := os.ReadFile(file)\r\n\trequire.NoError(t, err)\r\n\r\n\t_, err = db.Exec(string(script))\r\n\trequire.NoError(t, err)\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/api/internal/repository/testdata/test_database.go b/api/internal/repository/testdata/test_database.go
+--- a/api/internal/repository/testdata/test_database.go	
++++ b/api/internal/repository/testdata/test_database.go	
+@@ -3,10 +3,11 @@
+ import (
+ 	"context"
+ 	"database/sql"
+-	_ "github.com/lib/pq"
+-	"github.com/stretchr/testify/require"
+ 	"os"
+ 	"testing"
++
++	_ "github.com/lib/pq"
++	"github.com/stretchr/testify/require"
+ )
+ 
+ var appDB *sql.DB
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># **Project: friend-management**\r\n### How to Run:\r\n- Setup: make pg, make setup\r\n- Run app: make run\r\n\r\n### **Technology**:\r\n- Using Go 1.19\r\n- PostgreSQL\r\n- DB migration\r\n- sqlBoiler\r\n- mockery\r\n\r\n### Project structure\r\n- Workflow: Request => Routes => Handler => Controller => Repository => Database\r\n\r\n- Three layers model:\r\n    + internal/handler: Get request from httpRequest, decode, validate, call controller, write httpResponse\r\n    + internal/controller: Handle business logic, call repositories\r\n    + internal/repository: Data access layer\r\n\r\n### API ENDPOINTS(localhost:3000)\r\n1. Create User:\r\n   + Using your preferred browser or api call tools such as (Postman or Swagger) to trigger api call\r\n   + Path: localhost:3000/users\r\n   + Method: Post.\r\n\r\n    Example:\r\n   {\r\n        \"name\":\"test\",\r\n        \"email\":\"test@example.com\"\r\n   }\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	
++++ b/README.md	
+@@ -21,7 +21,7 @@
+ ### API ENDPOINTS(localhost:3000)
+ 1. Create User:
+    + Using your preferred browser or api call tools such as (Postman or Swagger) to trigger api call
+-   + Path: localhost:3000/users
++   * Path: localhost:3000/users
+    + Method: Post.
+ 
+     Example:
+@@ -29,3 +29,14 @@
+         "name":"test",
+         "email":"test@example.com"
+    }
++
++   * Path: localhost:3000/friends
++   + Method: Post.
++
++    Example:
++    { "friends" 
++        [
++            "test1@example.com",
++            "test2@example.com"
++        ]
++    }

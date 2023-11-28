@@ -1,0 +1,46 @@
+Index: api/internal/repository/get_friends_list.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package repository\r\n\r\nimport (\r\n\t\"assignment/internal/repository/orm\"\r\n\t\"context\"\r\n)\r\n\r\n// GetFriendsList retrieve a list of friend names a user have\r\nfunc (i RepoImplement) GetFriendsList(ctx context.Context, userEmail string) ([]string, error) {\r\n\tvar listOfFriends []string\r\n\r\n\tfriends1, err := orm.Friendships(\r\n\t\torm.FriendshipWhere.UserEmail1.EQ(userEmail)).All(ctx, i.pgConn)\r\n\tif err != nil {\r\n\t\treturn []string{}, err\r\n\t}\r\n\tfor _, friend := range friends1 {\r\n\t\tlistOfFriends = append(listOfFriends, friend.UserEmail2)\r\n\t}\r\n\r\n\tfriends2, err := orm.Friendships(\r\n\t\torm.FriendshipWhere.UserEmail2.EQ(userEmail)).All(ctx, i.pgConn)\r\n\tif err != nil {\r\n\t\treturn []string{}, err\r\n\t}\r\n\tfor _, friend := range friends2 {\r\n\t\tlistOfFriends = append(listOfFriends, friend.UserEmail1)\r\n\t}\r\n\r\n\treturn listOfFriends, err\r\n}\r\n
+===================================================================
+diff --git a/api/internal/repository/get_friends_list.go b/api/internal/repository/get_friends_list.go
+--- a/api/internal/repository/get_friends_list.go	
++++ b/api/internal/repository/get_friends_list.go	
+@@ -7,17 +7,19 @@
+ 
+ // GetFriendsList retrieve a list of friend names a user have
+ func (i RepoImplement) GetFriendsList(ctx context.Context, userEmail string) ([]string, error) {
++	//Create a slice to store list of friends of userEmail
+ 	var listOfFriends []string
+-
++	//Extract all rows in database that contain userEmail at the first column
+ 	friends1, err := orm.Friendships(
+ 		orm.FriendshipWhere.UserEmail1.EQ(userEmail)).All(ctx, i.pgConn)
+ 	if err != nil {
+ 		return []string{}, err
+ 	}
++	//The second column contain the email of userEmail friends, store them to the list
+ 	for _, friend := range friends1 {
+ 		listOfFriends = append(listOfFriends, friend.UserEmail2)
+ 	}
+-
++	//Repeat for the other case, when userEmail contained at the second column
+ 	friends2, err := orm.Friendships(
+ 		orm.FriendshipWhere.UserEmail2.EQ(userEmail)).All(ctx, i.pgConn)
+ 	if err != nil {
+Index: api/internal/repository/add_friendship.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package repository\r\n\r\nimport (\r\n\t\"assignment/internal/repository/orm\"\r\n\t\"context\"\r\n\r\n\t\"github.com/volatiletech/sqlboiler/v4/boil\"\r\n)\r\n\r\n// AddFriendship insert two usernames to friendship table in db\r\nfunc (i RepoImplement) AddFriendship(ctx context.Context, userEmails []string) error {\r\n\r\n\tcreateFriendShip := &orm.Friendship{\r\n\t\tUserEmail1: userEmails[0],\r\n\t\tUserEmail2: userEmails[1],\r\n\t}\r\n\r\n\terr := createFriendShip.Insert(ctx, i.pgConn, boil.Infer())\r\n\treturn err\r\n}\r\n
+===================================================================
+diff --git a/api/internal/repository/add_friendship.go b/api/internal/repository/add_friendship.go
+--- a/api/internal/repository/add_friendship.go	
++++ b/api/internal/repository/add_friendship.go	
+@@ -9,7 +9,6 @@
+ 
+ // AddFriendship insert two usernames to friendship table in db
+ func (i RepoImplement) AddFriendship(ctx context.Context, userEmails []string) error {
+-
+ 	createFriendShip := &orm.Friendship{
+ 		UserEmail1: userEmails[0],
+ 		UserEmail2: userEmails[1],

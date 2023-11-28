@@ -1,0 +1,17 @@
+Index: api/internal/handler/add_friends.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package handler\r\n\r\nimport (\r\n\t\"net/http\"\r\n\r\n\t\"github.com/gin-gonic/gin\"\r\n)\r\n\r\ntype Friends struct {\r\n\tEmails []string `json:\"friends\"`\r\n}\r\n\r\nfunc (h Handler) AddFriend() gin.HandlerFunc {\r\n\treturn func(c *gin.Context) {\r\n\t\tvar input Friends\r\n\t\tif err := c.ShouldBindJSON(&input); err != nil {\r\n\t\t\tc.JSON(http.StatusBadRequest, gin.H{\"error\": \"Failed to get your information\"})\r\n\t\t\treturn\r\n\t\t}\r\n\r\n\t\tif err := input.validate(); err != nil {\r\n\t\t\tc.JSON(http.StatusBadRequest, gin.H{\"error\": err.Error()})\r\n\t\t\treturn\r\n\t\t}\r\n\r\n\t\tif err := h.ctrl.AddFriends(c.Request.Context(), input.Emails); err != nil {\r\n\t\t\tCustomError(c, err)\r\n\t\t\treturn\r\n\t\t}\r\n\t\tc.JSON(http.StatusOK, gin.H{\"message\": \"Add friend successfully!\"})\r\n\r\n\t}\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/api/internal/handler/add_friends.go b/api/internal/handler/add_friends.go
+--- a/api/internal/handler/add_friends.go	(revision 28ac4edce8eb79cf391d61fea2c04edb41f57675)
++++ b/api/internal/handler/add_friends.go	(date 1700811277243)
+@@ -28,6 +28,5 @@
+ 			return
+ 		}
+ 		c.JSON(http.StatusOK, gin.H{"message": "Add friend successfully!"})
+-
+ 	}
+ }

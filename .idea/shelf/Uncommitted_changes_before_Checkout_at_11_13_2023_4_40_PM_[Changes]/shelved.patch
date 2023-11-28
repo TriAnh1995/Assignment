@@ -1,0 +1,15 @@
+Index: api/internal/controller/connect_to_database.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package controller\r\n\r\nimport (\r\n\t\"fmt\"\r\n\r\n\t\"gorm.io/driver/postgres\"\r\n\t\"gorm.io/gorm\"\r\n)\r\n\r\nfunc ConnectToDatabase() (*gorm.DB, error) {\r\n\tdsn := fmt.Sprintf(\r\n\t\t\"user=%s password=%s dbname=%s sslmode=disable\",\r\n\t\t\"test\", \"\", \"test\")\r\n\r\n\tdb, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})\r\n\tif err != nil {\r\n\t\treturn nil, err\r\n\t}\r\n\r\n\treturn db, nil\r\n}\r\n
+===================================================================
+diff --git a/api/internal/controller/connect_to_database.go b/api/internal/controller/connect_to_database.go
+--- a/api/internal/controller/connect_to_database.go	
++++ b/api/internal/controller/connect_to_database.go	
+@@ -16,6 +16,5 @@
+ 	if err != nil {
+ 		return nil, err
+ 	}
+-
+ 	return db, nil
+ }

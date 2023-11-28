@@ -1,0 +1,14 @@
+Index: api/internal/repository/add_friendship_test.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package repository\r\n\r\nimport (\r\n\t\"assignment/internal/repository/testdata\"\r\n\t\"context\"\r\n\t\"database/sql\"\r\n\t\"testing\"\r\n\r\n\t\"github.com/DATA-DOG/go-sqlmock\"\r\n\t\"github.com/stretchr/testify/require\"\r\n)\r\n\r\nfunc TestRepoImplement_AddFriendship(t *testing.T) {\r\n\ttestCases := []struct {\r\n\t\tName        string\r\n\t\tUserEmails  []string\r\n\t\tExpectedErr error\r\n\t\tWantDBFail  bool\r\n\t}{\r\n\t\t{\r\n\t\t\tName:        \"Success\",\r\n\t\t\tUserEmails:  []string{\"new_email_1@example.com\", \"new_email_2@example.com\"},\r\n\t\t\tExpectedErr: nil,\r\n\t\t\tWantDBFail:  false,\r\n\t\t},\r\n\t\t{\r\n\t\t\tName:        \"Already Exist Friendship\",\r\n\t\t\tUserEmails:  []string{\"already_exist_email_1@example.com\", \"already_exist_email_2@example.com\"},\r\n\t\t\tExpectedErr: FriendshipAlreadyExist,\r\n\t\t\tWantDBFail:  false,\r\n\t\t},\r\n\t\t{\r\n\t\t\tName:        \"Internal Server Error\",\r\n\t\t\tUserEmails:  []string{\"internal-error-email_1@example.com\", \"internal-error-email_2@example.com\"},\r\n\t\t\tExpectedErr: InternalErrorAddFriendship,\r\n\t\t\tWantDBFail:  true,\r\n\t\t},\r\n\t}\r\n\tctx := context.Background()\r\n\tfor _, tc := range testCases {\r\n\t\tt.Run(tc.Name, func(t *testing.T) {\r\n\t\t\ttestdata.TestDatabase(t, func(tx *sql.Tx) {\r\n\t\t\t\ttestdata.LoadTestSQLFile(t, tx, \"testdata/testdata_for_friendship.sql\")\r\n\t\t\t\trepo := New(tx)\r\n\t\t\t\tif tc.WantDBFail {\r\n\t\t\t\t\tdbMock, _, _ := sqlmock.New()\r\n\t\t\t\t\trepo = New(dbMock)\r\n\t\t\t\t}\r\n\r\n\t\t\t\terr := repo.AddFriendship(ctx, tc.UserEmails)\r\n\r\n\t\t\t\tif err != nil {\r\n\t\t\t\t\trequire.EqualError(t, err, tc.ExpectedErr.Error())\r\n\t\t\t\t} else {\r\n\t\t\t\t\trequire.Equal(t, err, tc.ExpectedErr)\r\n\t\t\t\t}\r\n\t\t\t})\r\n\t\t})\r\n\t}\r\n\r\n}\r\n
+===================================================================
+diff --git a/api/internal/repository/add_friendship_test.go b/api/internal/repository/add_friendship_test.go
+--- a/api/internal/repository/add_friendship_test.go	
++++ b/api/internal/repository/add_friendship_test.go	
+@@ -57,5 +57,4 @@
+ 			})
+ 		})
+ 	}
+-
+ }

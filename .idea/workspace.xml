@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="04394c46-121d-4d3b-9715-29b51d3d95f2" name="Changes" comment="- optimizing test unit">
+      <change afterPath="$PROJECT_DIR$/api/internal/handler/friendlist.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/internal/handler/friendlist_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/internal/model/friendship_info.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/cmd/routes/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/cmd/routes/routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/internal/controller/mock_Controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/internal/controller/mock_Controller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/internal/controller/new.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/internal/controller/new.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/internal/handler/validate.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/internal/handler/validate.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file://$USER_HOME$/sdk/go1.21.1" />
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;TriAnh1995&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="9adc91f7-764f-401c-bdc8-f63a304ed458" />
+        <option name="url" value="https://github.com/TriAnh1995/assignment.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2XeLBJoYP2LvBdxolSrEHMi9rzS" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Rebasing friendlist__handler",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "D:/test/Golang-Gorm-MultiLayer-DB-Transaction-main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/": [
+      "PostgreSQL"
+    ]
+  }
+}]]></component>
+  <component name="RunManager" selected="Go Build.go build assignment/cmd">
+    <configuration name="go build assignment/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="assignment" />
+      <working_directory value="$PROJECT_DIR$/api" />
+      <kind value="PACKAGE" />
+      <package value="assignment/cmd" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/api/cmd/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestControllerImplement_AddFriend in assignment/internal/controller (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="assignment" />
+      <working_directory value="$PROJECT_DIR$/api/internal/controller" />
+      <root_directory value="$PROJECT_DIR$/api" />
+      <kind value="PACKAGE" />
+      <package value="assignment/internal/controller" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestControllerImplement_AddFriend\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestControllerImplement_AddFriend/User_Email_not_found in assignment/internal/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="assignment" />
+      <working_directory value="$PROJECT_DIR$/api/internal/controller" />
+      <root_directory value="$PROJECT_DIR$/api" />
+      <kind value="PACKAGE" />
+      <package value="assignment/internal/controller" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestControllerImplement_AddFriend\E$/^\QUser_Email_not_found\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestImpl_AddUsers in assignment/internal/controller (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="assignment" />
+      <working_directory value="$PROJECT_DIR$/api/internal/controller" />
+      <root_directory value="$PROJECT_DIR$/api" />
+      <kind value="PACKAGE" />
+      <package value="assignment/internal/controller" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestImpl_AddUsers\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestImpl_AddUsers in assignment/internal/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="assignment" />
+      <working_directory value="$PROJECT_DIR$/api/internal/controller" />
+      <root_directory value="$PROJECT_DIR$/api" />
+      <kind value="PACKAGE" />
+      <package value="assignment/internal/controller" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestImpl_AddUsers\E$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.TestImpl_AddUsers in assignment/internal/controller (1)" />
+        <item itemvalue="Go Test.TestImpl_AddUsers in assignment/internal/controller" />
+        <item itemvalue="Go Test.TestControllerImplement_AddFriend in assignment/internal/controller (1)" />
+        <item itemvalue="Go Test.TestControllerImplement_AddFriend/User_Email_not_found in assignment/internal/controller" />
+        <item itemvalue="Go Build.go build assignment/cmd" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="-Address Feedbacks" />
+    <MESSAGE value="- Add &quot;add_friend&quot; repository package" />
+    <MESSAGE value="Merge pull request #2 from TriAnh1995/addfriend_routes_and_handler&#10;&#10;Addfriend routes and handler" />
+    <MESSAGE value="- rebase" />
+    <MESSAGE value="- Add &quot;add_friends&quot; function in Controller package" />
+    <MESSAGE value="-" />
+    <MESSAGE value="- Address Feedback: + Update AddFriends function + Create ConnectToDatabase function" />
+    <MESSAGE value="- AddFriend Repository" />
+    <MESSAGE value="- import 'postgres' database" />
+    <MESSAGE value="- Experiment with gorm" />
+    <MESSAGE value="- Added new input, mock file" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/addfriends_controller' into addfriends_controller" />
+    <MESSAGE value="-Remove Tx.Commit" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/addfriend_Controller_2' into addfriend_Controller_2&#10;&#10;# Conflicts:&#10;#&#9;api/internal/controller/add_friends.go" />
+    <MESSAGE value="- Remove redundant method" />
+    <MESSAGE value="- Remove redundant code, simplify function" />
+    <MESSAGE value="-Change the way initialize gorm" />
+    <MESSAGE value="-nah" />
+    <MESSAGE value="-FriendsList Handler" />
+    <MESSAGE value="-FriendsList Controller" />
+    <MESSAGE value="- Repository" />
+    <MESSAGE value="- Improve check emails logic, optimizing AddFriendship input" />
+    <MESSAGE value="- optimizing test unit" />
+    <option name="LAST_COMMIT_MESSAGE" value="- optimizing test unit" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/assignment$go_test_handler.out" NAME="go test handler Coverage Results" MODIFIED="1701146110699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/assignment$go_test_controller.out" NAME="go test controller Coverage Results" MODIFIED="1701146095377" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/assignment$go_test_repository.out" NAME="go test repository Coverage Results" MODIFIED="1701146236509" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>
