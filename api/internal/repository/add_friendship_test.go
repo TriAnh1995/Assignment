@@ -48,7 +48,7 @@ func TestRepoImplement_AddFriendship(t *testing.T) {
 					repo = New(dbMock)
 				}
 
-				err := repo.AddFriendship(ctx, tc.UserEmails)
+				err := repo.AddFriendship(ctx, tc.UserEmails[0], tc.UserEmails[1])
 
 				if err != nil {
 					require.EqualError(t, err, tc.ExpectedErr.Error())
