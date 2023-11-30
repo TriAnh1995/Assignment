@@ -26,6 +26,6 @@
 
     Example:
    {
-        "name":"test",
+        "name":"Test",
         "email":"test@example.com"
    }
