@@ -9,12 +9,9 @@ import (
 
 // AddFriendship insert two usernames to friendship table in db
 func (i RepoImplement) AddFriendship(ctx context.Context, userEmails []string) error {
-
 	createFriendShip := &orm.Friendship{
 		UserEmail1: userEmails[0],
 		UserEmail2: userEmails[1],
 	}
-
-	err := createFriendShip.Insert(ctx, i.pgConn, boil.Infer())
-	return err
+	return createFriendShip.Insert(ctx, i.pgConn, boil.Infer())
 }

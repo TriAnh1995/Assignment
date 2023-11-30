@@ -7,12 +7,9 @@ import (
 
 func (i CTRLImplement) FriendsList(ctx context.Context, userEmail string) (model.FriendshipInfo, error) {
 	// Check whether user already in database through email
-	userExists, err := i.repo.CheckUserByEmail(ctx, userEmail)
+	err := i.checkEmail(ctx, userEmail)
 	if err != nil {
-		return model.FriendshipInfo{}, ServerError
-	}
-	if !userExists {
-		return model.FriendshipInfo{}, UserNotFound
+		return model.FriendshipInfo{}, err
 	}
 	//Using FriendshipInfo model for the output
 	var FriendsInfo model.FriendshipInfo
