@@ -81,3 +81,7 @@ func (e FriendsList) validate() error {
 	}
 	return nil
 }
+
+func (fu *FullUsers) validate() error {
+	return nil
+}
