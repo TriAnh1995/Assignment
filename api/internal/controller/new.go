@@ -19,7 +19,3 @@ type CTRLImplement struct {
 func New(repo repository.Repository) Controller {
 	return CTRLImplement{repo}
 }
-
-func (i CTRLImplement) FriendsList(ctx context.Context, userEmail string) (model.FriendshipInfo, error) {
-	return model.FriendshipInfo{}, nil
-}
