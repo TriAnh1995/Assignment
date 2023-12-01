@@ -7,16 +7,13 @@ import (
 )
 
 type FriendsList struct {
-	Email string `json:"email"`
+	Email string
 }
 
 func (h Handler) FriendsList() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var input FriendsList
-		if err := c.ShouldBindJSON(&input); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get your information"})
-			return
-		}
+		input.Email = c.Query("email")
 
 		if err := input.validate(); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

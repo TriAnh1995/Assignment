@@ -3,7 +3,6 @@ package handler
 import (
 	"assignment/internal/controller"
 	"assignment/internal/model"
-	"bytes"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -17,7 +16,6 @@ import (
 func TestHandler_FriendList(t *testing.T) {
 	testCases := []struct {
 		Name            string
-		requestInput    string
 		request         string
 		expectedCtrl    model.FriendshipInfo
 		expectedCtrlErr error
@@ -25,9 +23,8 @@ func TestHandler_FriendList(t *testing.T) {
 		expectedStatus  int
 	}{
 		{
-			Name:         "Success",
-			requestInput: `{"email": "%s"}`,
-			request:      "user@example.com",
+			Name:    "Success",
+			request: "user@example.com",
 			expectedCtrl: model.FriendshipInfo{
 				List:    []string{"friend_number_1@example.com", "friend_number_2@example.com"},
 				Amounts: 2,
@@ -37,21 +34,8 @@ func TestHandler_FriendList(t *testing.T) {
 			expectedStatus:  200,
 		},
 		{
-			Name:         "Failed to get your information",
-			requestInput: `"email": "%s"`,
-			request:      "user@example.com",
-			expectedCtrl: model.FriendshipInfo{
-				List:    nil,
-				Amounts: 0,
-			},
-			expectedCtrlErr: nil,
-			expectedRespond: "{\"error\":\"Failed to get your information\"}",
-			expectedStatus:  400,
-		},
-		{
-			Name:         "Email invalid",
-			requestInput: `{"email": "%s"}`,
-			request:      "userExampleCom",
+			Name:    "Email invalid",
+			request: "userExampleCom",
 			expectedCtrl: model.FriendshipInfo{
 				List:    nil,
 				Amounts: 0,
@@ -61,9 +45,8 @@ func TestHandler_FriendList(t *testing.T) {
 			expectedStatus:  400,
 		},
 		{
-			Name:         "Internal server error",
-			requestInput: `{"email": "%s"}`,
-			request:      "user@example.com",
+			Name:    "Internal server error",
+			request: "user@example.com",
 			expectedCtrl: model.FriendshipInfo{
 				List:    nil,
 				Amounts: 0,
@@ -77,9 +60,7 @@ func TestHandler_FriendList(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			// Create a new request
-			reqBody := []byte(fmt.Sprintf(tc.requestInput, tc.request))
-			req := httptest.NewRequest(http.MethodPost, "/friends/list", bytes.NewBuffer(reqBody))
-			req.Header.Set("Content-Type", "application/json")
+			req := httptest.NewRequest(http.MethodGet, fmt.Sprintf("/friends/list?email=%s", tc.request), nil)
 
 			// Set up a recorder to capture the response from the handler
 			res := httptest.NewRecorder()
