@@ -78,7 +78,7 @@ func TestHandler_FriendList(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			// Create a new request
 			reqBody := []byte(fmt.Sprintf(tc.requestInput, tc.request))
-			req := httptest.NewRequest(http.MethodGet, "/friends/list", bytes.NewBuffer(reqBody))
+			req := httptest.NewRequest(http.MethodPost, "/friends/list", bytes.NewBuffer(reqBody))
 			req.Header.Set("Content-Type", "application/json")
 
 			// Set up a recorder to capture the response from the handler
