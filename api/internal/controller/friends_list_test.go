@@ -74,10 +74,10 @@ func TestControllerImplement_FriendsList(t *testing.T) {
 			// Defined mock Behaviors
 			repo.On("CheckUserByEmail", ctx, tc.InputEmail).
 				Return(tc.expectedCheckUserByEmail.expectedExist, tc.expectedCheckUserByEmail.expectedErr)
+
 			repo.On("GetFriendsList", ctx, tc.InputEmail).
 				Return(tc.expectedGetFriendsList.expectedList, tc.expectedGetFriendsList.expectedErr)
 
-			// Run the Test
 			result, err := ctrl.FriendsList(ctx, tc.InputEmail)
 
 			// Check Result
