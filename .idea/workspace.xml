@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6dc41a4a-b340-43c0-8eac-f83e5903a511" name="Changes" comment="- Initializing friends_list handler" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Private" />
+      </map>
+    </option>
+  </component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File"
+  }
+}]]></component>
+  <component name="RunManager" selected="Go Test.TestHandler_FriendList in assignment/internal/handler (1)">
+    <configuration name="TestControllerImplement_AddFriend in assignment/internal/controller (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="assignment" />
+      <working_directory value="$PROJECT_DIR$/api/internal/controller" />
+      <root_directory value="$PROJECT_DIR$/api" />
+      <kind value="PACKAGE" />
+      <package value="assignment/internal/controller" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestControllerImplement_AddFriend\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestHandler_FriendList in assignment/internal/handler (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="assignment" />
+      <working_directory value="$PROJECT_DIR$/api/internal/handler" />
+      <root_directory value="$PROJECT_DIR$/api" />
+      <kind value="PACKAGE" />
+      <package value="assignment/internal/handler" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestHandler_FriendList\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestHandler_FriendList in assignment/internal/handler" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="assignment" />
+      <working_directory value="$PROJECT_DIR$/api/internal/handler" />
+      <root_directory value="$PROJECT_DIR$/api" />
+      <kind value="PACKAGE" />
+      <package value="assignment/internal/handler" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestHandler_FriendList\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestImpl_AddUsers in assignment/internal/controller (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="assignment" />
+      <working_directory value="$PROJECT_DIR$/api/internal/controller" />
+      <root_directory value="$PROJECT_DIR$/api" />
+      <kind value="PACKAGE" />
+      <package value="assignment/internal/controller" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestImpl_AddUsers\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestImpl_AddUsers in assignment/internal/controller" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="assignment" />
+      <working_directory value="$PROJECT_DIR$/api/internal/controller" />
+      <root_directory value="$PROJECT_DIR$/api" />
+      <kind value="PACKAGE" />
+      <package value="assignment/internal/controller" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestImpl_AddUsers\E$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.TestHandler_FriendList in assignment/internal/handler (1)" />
+        <item itemvalue="Go Test.TestImpl_AddUsers in assignment/internal/controller (1)" />
+        <item itemvalue="Go Test.TestImpl_AddUsers in assignment/internal/controller" />
+        <item itemvalue="Go Test.TestHandler_FriendList in assignment/internal/handler" />
+        <item itemvalue="Go Test.TestControllerImplement_AddFriend in assignment/internal/controller (1)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="- Initializing friends_list handler" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Initializing friends_list handler" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/assignment$go_test_handler.out" NAME="go test handler Coverage Results" MODIFIED="1701146110699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/assignment$go_test_controller.out" NAME="go test controller Coverage Results" MODIFIED="1701146095377" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/assignment$go_test_repository.out" NAME="go test repository Coverage Results" MODIFIED="1701146236509" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>
