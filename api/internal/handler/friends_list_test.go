@@ -45,6 +45,28 @@ func TestHandler_FriendList(t *testing.T) {
 			expectedStatus:  400,
 		},
 		{
+			Name:    "Invalid Email TLD",
+			request: "user@example.cam",
+			expectedCtrl: model.FriendshipInfo{
+				List:    nil,
+				Amounts: 0,
+			},
+			expectedCtrlErr: nil,
+			expectedRespond: "{\"error\":\"Invalid Email TLD\"}",
+			expectedStatus:  400,
+		},
+		{
+			Name:    "Invalid Email Length",
+			request: "",
+			expectedCtrl: model.FriendshipInfo{
+				List:    nil,
+				Amounts: 0,
+			},
+			expectedCtrlErr: nil,
+			expectedRespond: "{\"error\":\"Invalid Email Length\"}",
+			expectedStatus:  400,
+		},
+		{
 			Name:    "Internal server error",
 			request: "user@example.com",
 			expectedCtrl: model.FriendshipInfo{
@@ -67,7 +89,6 @@ func TestHandler_FriendList(t *testing.T) {
 
 			// Set up and define mock behavior
 			ctrl := new(controller.MockController)
-
 			ctrl.On("FriendsList", req.Context(), tc.request).
 				Return(tc.expectedCtrl, tc.expectedCtrlErr)
 
