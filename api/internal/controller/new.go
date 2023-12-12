@@ -11,6 +11,7 @@ type Controller interface {
 	AddFriends(context.Context, []string) error
 	FriendsList(context.Context, string) (model.FriendshipInfo, error)
 	CommonFriends(context.Context, []string) (model.FriendshipInfo, error)
+	UpdateTopic(context.Context, model.UpdateInfo) ([]string, error)
 }
 
 type CTRLImplement struct {
