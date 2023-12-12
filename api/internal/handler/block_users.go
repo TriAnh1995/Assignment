@@ -20,11 +20,10 @@ func (h Handler) BlockUsers() gin.HandlerFunc {
 			return
 		}
 
-		if err := input.validate; err != nil {
+		if err := input.validate(); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-
 		var emails = []string{input.Requester, input.Target}
 		if err := h.ctrl.BlockUsers(c.Request.Context(), emails); err != nil {
 			CustomError(c, err)
