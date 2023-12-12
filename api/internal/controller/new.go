@@ -11,6 +11,7 @@ type Controller interface {
 	AddFriends(context.Context, []string) error
 	FriendsList(context.Context, string) (model.FriendshipInfo, error)
 	CommonFriends(context.Context, []string) (model.FriendshipInfo, error)
+	UpdateTopic(context.Context, model.UpdateInfo) ([]string, error)
 }
 
 type CTRLImplement struct {
@@ -28,3 +29,9 @@ func (i CTRLImplement) FriendsList(ctx context.Context, userEmail string) (model
 func (i CTRLImplement) CommonFriends(ctx context.Context, data []string) (model.FriendshipInfo, error) {
 	return model.FriendshipInfo{}, nil
 }
+
+func (i CTRLImplement) UpdateTopic(ctx context.Context, updateInfo model.UpdateInfo) ([]string, error) {
+	return []string{}, nil
+}
+
+
