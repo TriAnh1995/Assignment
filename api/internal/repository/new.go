@@ -12,6 +12,7 @@ type Repository interface {
 	CheckUserByEmail(context.Context, string) (bool, error)
 	AddFriendship(context.Context, string, string) error
 	CheckFriendship(context.Context, []string) (bool, error)
+	UpdateTopic(context.Context, model.UpdateInfo) error
 }
 
 type RepoImplement struct {
