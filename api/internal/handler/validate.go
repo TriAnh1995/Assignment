@@ -36,12 +36,6 @@ func (e FriendsList) validate() error {
 	}
 	return nil
 }
-func (c CommonFriends) validate() error {
-	if err := validateEmails(c.Emails); err != nil {
-		return err
-	}
-	return nil
-}
 
 func validateEmail(email string) error {
 	// Check Email length
