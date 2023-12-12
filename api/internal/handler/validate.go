@@ -12,7 +12,6 @@ import (
 var validTLDs = []string{"com", "org", "net"}
 
 func (u User) validate() error {
-
 	if len(u.Name) == 0 {
 		return errors.New("Name cannot be blank")
 	}
@@ -20,49 +19,34 @@ func (u User) validate() error {
 	if !unicode.IsUpper(firstChar) {
 		return errors.New("Name Invalid")
 	}
-
-	if len(u.Email) == 0 {
-		return errors.New("Email cannot be blank")
-	}
-
-	emailPattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$`
-	match, _ := regexp.MatchString(emailPattern, u.Email)
-	if !(match) {
-		return errors.New("Email invalid")
+	if err := validateEmail(u.Email); err != nil {
+		return err
 	}
 	return nil
 }
 func (f Friends) validate() error {
-
-	// Check number of input and avoid repeat inputs
-	if (len(f.Emails) != 2) || (f.Emails[0] == f.Emails[1]) {
-		return errors.New("Please insert two different emails")
+	if err := validateEmails(f.Emails); err != nil {
+		return err
 	}
-
-	// Check Empty Emails
-	if (f.Emails[0] == "") || (f.Emails[1] == "") {
-		return errors.New("One of your emails is blank")
-	}
-
-	// Check Email structure
-	emailPattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$`
-
-	if (!regexp.MustCompile(emailPattern).MatchString(f.Emails[0])) || (!regexp.MustCompile(emailPattern).MatchString(f.Emails[1])) {
-		return errors.New("One of your emails is invalid")
-	}
-
 	return nil
 }
 func (e FriendsList) validate() error {
+	if err := validateEmail(e.Email); err != nil {
+		return err
+	}
+	return nil
+}
+
+func validateEmail(email string) error {
 	// Check Email length
-	lengthIsValid := 0 < len(e.Email) && len(e.Email) <= 320
+	lengthIsValid := 0 < len(email) && len(email) <= 320
 	if !(lengthIsValid) {
 		return errors.New("Invalid Email Length")
 	}
 
 	// Check Email format
 	emailPattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$`
-	match, _ := regexp.MatchString(emailPattern, e.Email)
+	match, _ := regexp.MatchString(emailPattern, email)
 	if !(match) {
 		return errors.New("Invalid Email Format")
 	}
@@ -71,11 +55,25 @@ func (e FriendsList) validate() error {
 	tldRegex := regexp.MustCompile(fmt.Sprintf("\\.(%s)$", strings.Join(validTLDs, "|")))
 
 	// Find the TLD in the email
-	matches := tldRegex.FindStringSubmatch(e.Email)
+	matches := tldRegex.FindStringSubmatch(email)
 
 	// Check if a valid TLD is found
 	if len(matches) == 0 {
 		return errors.New("Invalid Email TLD")
+	}
+	return nil
+}
+func validateEmails(emails []string) error {
+	// Check number of input and avoid repeat inputs
+	if (len(emails) != 2) || (emails[0] == emails[1]) {
+		return errors.New("Please insert two different emails")
+	}
+
+	// Check each email with validateEmail function
+	for _, email := range emails {
+		if err := validateEmail(email); err != nil {
+			return err
+		}
 	}
 	return nil
 }
