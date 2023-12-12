@@ -10,6 +10,7 @@ type Controller interface {
 	AddUsers(context.Context, model.User) error
 	AddFriends(context.Context, []string) error
 	FriendsList(context.Context, string) (model.FriendshipInfo, error)
+	UpdateTopic(context.Context, model.UpdateInfo) ([]string, error)
 }
 
 type CTRLImplement struct {
@@ -22,4 +23,8 @@ func New(repo repository.Repository) Controller {
 
 func (i CTRLImplement) FriendsList(ctx context.Context, userEmail string) (model.FriendshipInfo, error) {
 	return model.FriendshipInfo{}, nil
+}
+
+func (i CTRLImplement) UpdateTopic(ctx context.Context, updateInfo model.UpdateInfo) ([]string, error) {
+	return []string{}, nil
 }
