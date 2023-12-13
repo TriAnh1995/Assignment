@@ -12,7 +12,7 @@ type Repository interface {
 	CheckUserByEmail(context.Context, string) (bool, error)
 	AddFriendship(context.Context, string, string) error
 	CheckFriendship(context.Context, []string) (bool, error)
-	CheckIfFollowed(context.Context, []string) (bool, error)
+	CheckIfSubscribed(context.Context, []string) (bool, error)
 	CheckIfBlocked(context.Context, []string) (bool, error)
 	SubscribeToBlocked(context.Context, []string) error
 	SubscribeToNonBlocked(context.Context, []string) error
@@ -26,7 +26,7 @@ func New(pgConn boil.ContextExecutor) Repository {
 	return RepoImplement{pgConn: pgConn}
 }
 
-func (i RepoImplement) CheckIfFollowed(ctx context.Context, userEmails []string) (bool, error) {
+func (i RepoImplement) CheckIfSubscribed(ctx context.Context, userEmails []string) (bool, error) {
 	return false, nil
 }
 

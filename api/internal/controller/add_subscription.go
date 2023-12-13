@@ -19,7 +19,7 @@ func (i CTRLImplement) AddSubscription(ctx context.Context, userEmails []string)
 			return err
 		}
 
-		checkIfFollowed, err := i.repo.CheckIfFollowed(ctx, userEmails)
+		checkIfFollowed, err := i.repo.CheckIfSubscribed(ctx, userEmails)
 		if err != nil {
 			return ServerError
 		}

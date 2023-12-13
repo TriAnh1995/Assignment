@@ -91,7 +91,7 @@ func (_m *MockRepository) CheckIfBlocked(_a0 context.Context, _a1 []string) (boo
 }
 
 // CheckIfFollowed provides a mock function with given fields: _a0, _a1
-func (_m *MockRepository) CheckIfFollowed(_a0 context.Context, _a1 []string) (bool, error) {
+func (_m *MockRepository) CheckIfSubscribed(_a0 context.Context, _a1 []string) (bool, error) {
 	ret := _m.Called(_a0, _a1)
 
 	var r0 bool

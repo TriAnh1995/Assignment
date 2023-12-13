@@ -13,7 +13,7 @@ func TestControllerImplement_AddSubscription(t *testing.T) {
 		expectedExist bool
 		expectedErr   error
 	}
-	type expectedCheckIfFollowed struct {
+	type expectedCheckIfSubscribed struct {
 		expectedExist bool
 		expectedErr   error
 	}
@@ -26,7 +26,7 @@ func TestControllerImplement_AddSubscription(t *testing.T) {
 		Name  string
 		Input []string
 		expectedCheckUserByEmail
-		expectedCheckIfFollowed
+		expectedCheckIfSubscribed
 		expectedCheckBlocked
 		expectedSubscribeToBlocked    error
 		expectedSubscribeToNonBlocked error
@@ -36,7 +36,7 @@ func TestControllerImplement_AddSubscription(t *testing.T) {
 			Name:                          "Success",
 			Input:                         []string{"requester@example.com", "target@example.com"},
 			expectedCheckUserByEmail:      expectedCheckUserByEmail{true, nil},
-			expectedCheckIfFollowed:       expectedCheckIfFollowed{false, nil},
+			expectedCheckIfSubscribed:     expectedCheckIfSubscribed{false, nil},
 			expectedCheckBlocked:          expectedCheckBlocked{false, nil},
 			expectedSubscribeToBlocked:    nil,
 			expectedSubscribeToNonBlocked: nil,
@@ -46,7 +46,7 @@ func TestControllerImplement_AddSubscription(t *testing.T) {
 			Name:                          "User Email not found",
 			Input:                         []string{"requester@example.com", "target@example.com"},
 			expectedCheckUserByEmail:      expectedCheckUserByEmail{false, nil},
-			expectedCheckIfFollowed:       expectedCheckIfFollowed{false, nil},
+			expectedCheckIfSubscribed:     expectedCheckIfSubscribed{false, nil},
 			expectedCheckBlocked:          expectedCheckBlocked{false, nil},
 			expectedSubscribeToBlocked:    nil,
 			expectedSubscribeToNonBlocked: nil,
@@ -56,7 +56,7 @@ func TestControllerImplement_AddSubscription(t *testing.T) {
 			Name:                          "Server error from CheckUserByEmail",
 			Input:                         []string{"requester@example.com", "target@example.com"},
 			expectedCheckUserByEmail:      expectedCheckUserByEmail{true, ServerError},
-			expectedCheckIfFollowed:       expectedCheckIfFollowed{false, nil},
+			expectedCheckIfSubscribed:     expectedCheckIfSubscribed{false, nil},
 			expectedCheckBlocked:          expectedCheckBlocked{false, nil},
 			expectedSubscribeToBlocked:    nil,
 			expectedSubscribeToNonBlocked: nil,
@@ -66,7 +66,7 @@ func TestControllerImplement_AddSubscription(t *testing.T) {
 			Name:                          "Already Subscribed",
 			Input:                         []string{"requester@example.com", "target@example.com"},
 			expectedCheckUserByEmail:      expectedCheckUserByEmail{true, nil},
-			expectedCheckIfFollowed:       expectedCheckIfFollowed{true, nil},
+			expectedCheckIfSubscribed:     expectedCheckIfSubscribed{true, nil},
 			expectedCheckBlocked:          expectedCheckBlocked{false, nil},
 			expectedSubscribeToBlocked:    nil,
 			expectedSubscribeToNonBlocked: nil,
@@ -76,7 +76,7 @@ func TestControllerImplement_AddSubscription(t *testing.T) {
 			Name:                          "Server error from CheckSubscription",
 			Input:                         []string{"requester@example.com", "target@example.com"},
 			expectedCheckUserByEmail:      expectedCheckUserByEmail{true, nil},
-			expectedCheckIfFollowed:       expectedCheckIfFollowed{false, ServerError},
+			expectedCheckIfSubscribed:     expectedCheckIfSubscribed{false, ServerError},
 			expectedCheckBlocked:          expectedCheckBlocked{false, nil},
 			expectedSubscribeToBlocked:    nil,
 			expectedSubscribeToNonBlocked: nil,
@@ -86,7 +86,7 @@ func TestControllerImplement_AddSubscription(t *testing.T) {
 			Name:                          "Server error from CheckBlocked",
 			Input:                         []string{"requester@example.com", "target@example.com"},
 			expectedCheckUserByEmail:      expectedCheckUserByEmail{true, nil},
-			expectedCheckIfFollowed:       expectedCheckIfFollowed{false, nil},
+			expectedCheckIfSubscribed:     expectedCheckIfSubscribed{false, nil},
 			expectedCheckBlocked:          expectedCheckBlocked{false, ServerError},
 			expectedSubscribeToBlocked:    nil,
 			expectedSubscribeToNonBlocked: nil,
@@ -96,7 +96,7 @@ func TestControllerImplement_AddSubscription(t *testing.T) {
 			Name:                          "Server error from SubscribeToBlocked",
 			Input:                         []string{"requester@example.com", "target@example.com"},
 			expectedCheckUserByEmail:      expectedCheckUserByEmail{true, nil},
-			expectedCheckIfFollowed:       expectedCheckIfFollowed{false, nil},
+			expectedCheckIfSubscribed:     expectedCheckIfSubscribed{false, nil},
 			expectedCheckBlocked:          expectedCheckBlocked{true, nil},
 			expectedSubscribeToBlocked:    ServerError,
 			expectedSubscribeToNonBlocked: nil,
@@ -106,7 +106,7 @@ func TestControllerImplement_AddSubscription(t *testing.T) {
 			Name:                          "Server error from SubscribeToNonBlocked",
 			Input:                         []string{"requester@example.com", "target@example.com"},
 			expectedCheckUserByEmail:      expectedCheckUserByEmail{true, nil},
-			expectedCheckIfFollowed:       expectedCheckIfFollowed{false, nil},
+			expectedCheckIfSubscribed:     expectedCheckIfSubscribed{false, nil},
 			expectedCheckBlocked:          expectedCheckBlocked{false, nil},
 			expectedSubscribeToBlocked:    nil,
 			expectedSubscribeToNonBlocked: ServerError,
@@ -124,8 +124,8 @@ func TestControllerImplement_AddSubscription(t *testing.T) {
 				repo.On("CheckUserByEmail", ctx, inputCase).
 					Return(tc.expectedCheckUserByEmail.expectedExist, tc.expectedCheckUserByEmail.expectedErr)
 			}
-			repo.On("CheckIfFollowed", ctx, tc.Input).
-				Return(tc.expectedCheckIfFollowed.expectedExist, tc.expectedCheckIfFollowed.expectedErr)
+			repo.On("CheckIfSubscribed", ctx, tc.Input).
+				Return(tc.expectedCheckIfSubscribed.expectedExist, tc.expectedCheckIfSubscribed.expectedErr)
 			repo.On("CheckIfBlocked", ctx, tc.Input).
 				Return(tc.expectedCheckBlocked.expectedExist, tc.expectedCheckBlocked.expectedErr)
 			repo.On("SubscribeToBlocked", ctx, tc.Input).
