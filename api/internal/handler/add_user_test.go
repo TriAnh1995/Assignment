@@ -34,6 +34,22 @@ func TestHandler_AddUsers(t *testing.T) {
 			expectedStatus:  200,
 		},
 		{
+			Name:            "Name cannot be blank",
+			requestinput:    `{"name": "%s","email":"%s"}`,
+			request:         model.User{Name: "", Email: "alice@example.com"},
+			expectedCtrl:    nil,
+			expectedRespond: "{\"error\":\"Name cannot be blank\"}",
+			expectedStatus:  400,
+		},
+		{
+			Name:            "Email cannot be blank",
+			requestinput:    `{"name": "%s","email":"%s"}`,
+			request:         model.User{Name: "Alice", Email: ""},
+			expectedCtrl:    nil,
+			expectedRespond: "{\"error\":\"Email cannot be blank\"}",
+			expectedStatus:  400,
+		},
+		{
 			Name:            "Failed to get your information",
 			requestinput:    `"name": "%s","email":"%s"`,
 			request:         model.User{Name: "Alice", Email: "alice@example.com"},

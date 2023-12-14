@@ -5,8 +5,10 @@ package orm
 
 var TableNames = struct {
 	Friendships  string
+	Subscription string
 	UserAccounts string
 }{
 	Friendships:  "friendships",
+	Subscription: "subscription",
 	UserAccounts: "user_accounts",
 }

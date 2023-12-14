@@ -16,7 +16,7 @@ import (
 func TestHandler_AddFriend(t *testing.T) {
 	testCases := []struct {
 		Name            string
-		requestinput    string
+		requestInput    string
 		request         []string
 		expectedCtrl    error
 		expectedRespond string
@@ -24,7 +24,7 @@ func TestHandler_AddFriend(t *testing.T) {
 	}{
 		{
 			Name:            "Success",
-			requestinput:    `{"friends": ["%s", "%s"]}`,
+			requestInput:    `{"friends": ["%s", "%s"]}`,
 			request:         []string{"firstuser@example.com", "seconduser@example.com"},
 			expectedCtrl:    nil,
 			expectedRespond: "{\"message\":\"Add friend successfully!\"}",
@@ -32,7 +32,7 @@ func TestHandler_AddFriend(t *testing.T) {
 		},
 		{
 			Name:            "Failed to get your information",
-			requestinput:    `"friends": ["%s", "%s"]`,
+			requestInput:    `"friends": ["%s", "%s"]`,
 			request:         []string{"firstuser@example.com", "seconduser@example.com"},
 			expectedCtrl:    nil,
 			expectedRespond: "{\"error\":\"Failed to get your information\"}",
@@ -40,15 +40,31 @@ func TestHandler_AddFriend(t *testing.T) {
 		},
 		{
 			Name:            "Please insert at least two different emails",
-			requestinput:    `{"friends": ["%s", "%s"]}`,
+			requestInput:    `{"friends": ["%s", "%s"]}`,
 			request:         []string{"firstuser@example.com", "firstuser@example.com"},
 			expectedCtrl:    nil,
 			expectedRespond: "{\"error\":\"Please insert two different emails\"}",
 			expectedStatus:  400,
 		},
 		{
+			Name:            "One of your emails is blank",
+			requestInput:    `{"friends": ["%s", "%s"]}`,
+			request:         []string{"", "seconduser@example.com"},
+			expectedCtrl:    nil,
+			expectedRespond: "{\"error\":\"One of your emails is blank\"}",
+			expectedStatus:  400,
+		},
+		{
+			Name:            "One of your emails is invalid",
+			requestInput:    `{"friends": ["%s", "%s"]}`,
+			request:         []string{"firstUserExample.com", "Seconduser@example.cam"},
+			expectedCtrl:    nil,
+			expectedRespond: "{\"error\":\"One of your emails is invalid\"}",
+			expectedStatus:  400,
+		},
+		{
 			Name:            "Internal server error",
-			requestinput:    `{"friends": ["%s", "%s"]}`,
+			requestInput:    `{"friends": ["%s", "%s"]}`,
 			request:         []string{"firstuser@example.com", "seconduser@example.com"},
 			expectedCtrl:    errors.New("Internal server error"),
 			expectedRespond: "{\"error\":\"Internal Server Error\"}",
@@ -61,7 +77,7 @@ func TestHandler_AddFriend(t *testing.T) {
 
 			// Create new Request
 
-			reqBody := []byte(fmt.Sprintf(tc.requestinput, tc.request[0], tc.request[1]))
+			reqBody := []byte(fmt.Sprintf(tc.requestInput, tc.request[0], tc.request[1]))
 
 			req := httptest.NewRequest(http.MethodPost, "/friends", bytes.NewBuffer(reqBody))
 

@@ -57,7 +57,8 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 			expectedAddFriendship:    nil,
 			expectedErr:              FriendshipExisted,
 		},
-		{Name: "Server error from CheckFriendship",
+		{
+			Name:                     "Server error from CheckFriendship",
 			Input:                    []string{"firstuser@example.com", "seconduser@example.com"},
 			expectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},
 			expectedCheckFriendship:  expectedCheckFriendship{false, ServerError},
