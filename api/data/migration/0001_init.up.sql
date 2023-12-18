@@ -6,6 +6,11 @@ CREATE TABLE user_accounts (
                                "email" VARCHAR NOT NULL UNIQUE
 );
 
+CREATE TYPE update_type AS ENUM ('updated', 'default');
+ALTER TABLE user_accounts
+    ADD COLUMN "topic" update_type NOT NULL default 'default',
+    ADD COLUMN "topic_body" VARCHAR;
+
 CREATE SEQUENCE friendship_id_seq;
 CREATE TABLE friendships
 (
