@@ -30,11 +30,9 @@ func (h Handler) FullUser() gin.HandlerFunc {
 			c.JSON(500, gin.H{"error": "Server Error"})
 			return
 		}
-
 		if err = input.validate(); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-
 	}
 }
