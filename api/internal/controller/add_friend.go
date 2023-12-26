@@ -12,12 +12,10 @@ func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error
 		return ServerError
 	}
 	return tx.Transaction(func(db *gorm.DB) error {
-		err = i.checkEmail(ctx, userEmails[0])
-		if err != nil {
+		if err = i.checkEmail(ctx, userEmails[0]); err != nil {
 			return err
 		}
-		err = i.checkEmail(ctx, userEmails[1])
-		if err != nil {
+		if err = i.checkEmail(ctx, userEmails[1]); err != nil {
 			return err
 		}
 
@@ -28,6 +26,7 @@ func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error
 		if checkFriendshipExist {
 			return FriendshipExisted
 		}
+
 		if err = i.repo.AddFriendship(ctx, userEmails); err != nil {
 			return ServerError
 		}
