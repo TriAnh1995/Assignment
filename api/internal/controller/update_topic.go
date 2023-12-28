@@ -62,5 +62,6 @@ func (i CTRLImplement) UpdateTopic(ctx context.Context, updateInfo model.UpdateI
 	for s := range uniqueMap {
 		updateReceivedList = append(updateReceivedList, s)
 	}
+
 	return updateReceivedList, nil
 }
