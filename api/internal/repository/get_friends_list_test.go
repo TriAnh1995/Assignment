@@ -26,6 +26,13 @@ func TestRepoImplement_GetFriendsList(t *testing.T) {
 			WantDBFail:     false,
 		},
 		{
+			Name:           "Empty friends list",
+			UserEmail:      "zero_friends_email@example.com",
+			ExpectedResult: nil,
+			ExpectedErr:    nil,
+			WantDBFail:     false,
+		},
+		{
 			Name:           "Internal Server Error",
 			UserEmail:      "already_exist_email_1@example.com",
 			ExpectedResult: nil,
