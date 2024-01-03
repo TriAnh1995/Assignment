@@ -13,5 +13,15 @@ CREATE TABLE friendships
     "user_email_1"  VARCHAR NOT NULL,
     "user_email_2"  VARCHAR NOT NULL,
     CONSTRAINT unique_friends UNIQUE (user_email_1, user_email_2)
+);
 
+CREATE SEQUENCE subscription_id_seq;
+CREATE TYPE status_type AS ENUM ('subscribed', 'blocked', 'default');
+
+CREATE TABLE subscription (
+                              "subscription_id" INT DEFAULT nextval('subscription_id_seq') PRIMARY KEY,
+                              "requester" VARCHAR NOT NULL,
+                              "target" VARCHAR NOT NULL,
+                              "status" status_type NOT NULL,
+                              CONSTRAINT subscribed UNIQUE (requester, target)
 );
