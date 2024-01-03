@@ -22,14 +22,6 @@ func New(repo repository.Repository) Controller {
 	return CTRLImplement{repo}
 }
 
-func (i CTRLImplement) FriendsList(ctx context.Context, userEmail string) (model.FriendshipInfo, error) {
-	return model.FriendshipInfo{}, nil
-}
-
-func (i CTRLImplement) CommonFriends(ctx context.Context, data []string) (model.FriendshipInfo, error) {
-	return model.FriendshipInfo{}, nil
-}
-
 func (i CTRLImplement) AddSubscription(ctx context.Context, userEmails []string) error {
 	return nil
 }
