@@ -1,0 +1,34 @@
+package handler
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+type AddSubscription struct {
+	Requester string `json:"requester"`
+	Target    string `json:"target"`
+}
+
+func (h Handler) AddSubscription() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var input AddSubscription
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get your information"})
+			return
+		}
+
+		if err := input.validate(); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		emails := []string{input.Requester, input.Target}
+		if err := h.ctrl.AddSubscription(c.Request.Context(), emails); err != nil {
+			CustomError(c, err)
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "Subscribe successfully!"})
+	}
+}
