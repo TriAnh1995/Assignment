@@ -12,6 +12,7 @@ type Repository interface {
 	CheckUserByEmail(context.Context, string) (bool, error)
 	AddFriendship(context.Context, string, string) error
 	CheckFriendship(context.Context, []string) (bool, error)
+  GetFriendsList(context.Context, string) ([]string, error)
 	CheckIfFollowed(context.Context, []string) (bool, error)
 	CheckIfBlocked(context.Context, []string) (bool, error)
 	SubscribeToBlocked(context.Context, []string) error

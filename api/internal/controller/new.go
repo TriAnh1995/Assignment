@@ -28,3 +28,4 @@ func (i CTRLImplement) FriendsList(ctx context.Context, userEmail string) (model
 func (i CTRLImplement) CommonFriends(ctx context.Context, data []string) (model.FriendshipInfo, error) {
 	return model.FriendshipInfo{}, nil
 }
+
