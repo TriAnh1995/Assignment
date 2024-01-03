@@ -12,7 +12,7 @@ type Repository interface {
 	CheckUserByEmail(context.Context, string) (bool, error)
 	AddFriendship(context.Context, string, string) error
 	CheckFriendship(context.Context, []string) (bool, error)
-	GetFriendsList(ctx context.Context, userEmail string) ([]string, error)
+	GetFriendsList(context.Context, string) ([]string, error)
 }
 
 type RepoImplement struct {
@@ -21,4 +21,8 @@ type RepoImplement struct {
 
 func New(pgConn boil.ContextExecutor) Repository {
 	return RepoImplement{pgConn: pgConn}
+}
+
+func (i RepoImplement) GetFriendsList(ctx context.Context, userEmail string) ([]string, error) {
+	return []string{}, nil
 }
