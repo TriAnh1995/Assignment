@@ -38,7 +38,6 @@ func (_m *MockController) AddSubscription(_a0 context.Context, _a1 []string) err
 	} else {
 		r0 = ret.Error(0)
 	}
-
 	return r0
 }
 

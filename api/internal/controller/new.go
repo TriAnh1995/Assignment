@@ -13,7 +13,6 @@ type Controller interface {
 	CommonFriends(context.Context, []string) (model.FriendshipInfo, error)
 	AddSubscription(context.Context, []string) error
 }
-
 type CTRLImplement struct {
 	repo repository.Repository
 }
