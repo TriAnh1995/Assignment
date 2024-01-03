@@ -26,7 +26,7 @@ func TestRepoImplement_GetFriendsList(t *testing.T) {
 			WantDBFail:     false,
 		},
 		{
-			Name:           "Empty friends list",
+			Name:           "Success with Empty friends list",
 			UserEmail:      "zero_friends_email@example.com",
 			ExpectedResult: nil,
 			ExpectedErr:    nil,
