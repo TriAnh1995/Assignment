@@ -22,23 +22,8 @@ func (i CTRLImplement) CommonFriends(ctx context.Context, userEmails []string) (
 	if err != nil {
 		return model.FriendshipInfo{}, ServerError
 	}
-
-	// Create an empty list of common friends
-	friendsInCommon := make(map[string]bool)
-
-	// If the friend exist in the list of one person...
-	for _, friend := range listOfFriends1 {
-		friendsInCommon[friend] = true
-	}
-	// ... and the other...
-	for _, friend := range listOfFriends2 {
-		if friendsInCommon[friend] {
-			// ... That's the common friend. So we insert them into the list
-			common.List = append(common.List, friend)
-		}
-	}
-	// The number of common friend is the length of the list
+	// Put both list in function to find the common friends among two list of friends
+	common.List = ExtractCommonElements(listOfFriends1, listOfFriends2)
 	common.Amounts = len(common.List)
-
 	return common, nil
 }
