@@ -16,6 +16,7 @@ type Repository interface {
 	CheckIfFollowed(context.Context, []string) (bool, error)
 	SubscribeToBlocked(context.Context, []string) error
 	SubscribeToNonBlocked(ctx context.Context, emails []string) error
+  GetFriendsList(context.Context, string) ([]string, error)
 }
 
 type RepoImplement struct {
@@ -24,6 +25,7 @@ type RepoImplement struct {
 
 func New(pgConn boil.ContextExecutor) Repository {
 	return RepoImplement{pgConn: pgConn}
+
 }
 func (i RepoImplement) CheckIfFollowed(ctx context.Context, userEmails []string) (bool, error) {
 	return false, nil

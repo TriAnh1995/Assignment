@@ -11,9 +11,8 @@ type Controller interface {
 	AddFriends(context.Context, []string) error
 	FriendsList(context.Context, string) (model.FriendshipInfo, error)
 	CommonFriends(context.Context, []string) (model.FriendshipInfo, error)
-	AddSubscription(ctx context.Context, userEmails []string) error
+	AddSubscription(context.Context, []string) error
 }
-
 type CTRLImplement struct {
 	repo repository.Repository
 }
@@ -22,10 +21,6 @@ func New(repo repository.Repository) Controller {
 	return CTRLImplement{repo}
 }
 
-func (i CTRLImplement) FriendsList(ctx context.Context, userEmail string) (model.FriendshipInfo, error) {
-	return model.FriendshipInfo{}, nil
-}
-
-func (i CTRLImplement) CommonFriends(ctx context.Context, data []string) (model.FriendshipInfo, error) {
-	return model.FriendshipInfo{}, nil
+func (i CTRLImplement) AddSubscription(ctx context.Context, userEmails []string) error {
+	return nil
 }
