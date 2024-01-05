@@ -7,16 +7,12 @@ import (
 
 func (i CTRLImplement) UpdateTopic(ctx context.Context, updateInfo model.UpdateInfo) ([]string, error) {
 	// Check email exist
-	checkEmailExist, err := i.repo.CheckUserByEmail(ctx, updateInfo.Sender)
-	if err != nil {
-		return []string{}, ServerError
-	}
-	if !checkEmailExist {
-		return []string{}, UserNotFound
+	if err := i.checkEmail(ctx, updateInfo.Sender); err != nil {
+		return []string{}, err
 	}
 
 	// Insert the Topic status and Update Message
-	if err = i.repo.UpdateTopic(ctx, updateInfo); err != nil {
+	if err := i.repo.UpdateTopic(ctx, updateInfo); err != nil {
 		return []string{}, ServerError
 	}
 
@@ -45,6 +41,5 @@ func (i CTRLImplement) UpdateTopic(ctx context.Context, updateInfo model.UpdateI
 
 	// Combine with the emails mentioned in the text, we got the final list
 	finalList := append(uniqueFollowerAndFriends, updateInfo.MentionedEmail)
-
 	return finalList, nil
 }
