@@ -47,6 +47,22 @@ func TestHandler_BlockUsers(t *testing.T) {
 			expectedStatus:  400,
 		},
 		{
+			Name:            "Something wrong with the Requester email",
+			requestInput:    `{"requester": "%s","target":"%s"}`,
+			request:         []string{"requester@example.cam", "target@example.com"},
+			expectedCtrl:    nil,
+			expectedRespond: "{\"error\":\"Something wrong with the Requester email: Invalid Email TLD\"}",
+			expectedStatus:  400,
+		},
+		{
+			Name:            "Something wrong with the Target email",
+			requestInput:    `{"requester": "%s","target":"%s"}`,
+			request:         []string{"requester@example.com", "target#example.com"},
+			expectedCtrl:    nil,
+			expectedRespond: "{\"error\":\"Something wrong with the Target email: Invalid Email Format\"}",
+			expectedStatus:  400,
+		},
+		{
 			Name:            "Internal server error",
 			requestInput:    `{"requester": "%s","target":"%s"}`,
 			request:         []string{"requester@example.com", "target@example.com"},
