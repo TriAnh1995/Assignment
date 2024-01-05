@@ -16,7 +16,7 @@ CREATE TABLE friendships
 );
 
 CREATE SEQUENCE subscription_id_seq;
-CREATE TYPE status_type AS ENUM ('subscribed', 'blocked', 'default');
+CREATE TYPE status_type AS ENUM ('followed', 'blocked', 'default');
 
 CREATE TABLE subscription (
                               "subscription_id" INT DEFAULT nextval('subscription_id_seq') PRIMARY KEY,

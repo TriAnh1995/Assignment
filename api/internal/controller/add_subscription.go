@@ -12,6 +12,7 @@ func (i CTRLImplement) AddSubscription(ctx context.Context, userEmails []string)
 		return ServerError
 	}
 	return tx.Transaction(func(*gorm.DB) error {
+		// Check Emails
 		if err = i.checkEmail(ctx, userEmails[0]); err != nil {
 			return err
 		}
@@ -19,6 +20,7 @@ func (i CTRLImplement) AddSubscription(ctx context.Context, userEmails []string)
 			return err
 		}
 
+		// Check Relationship between two emails
 		checkIfFollowed, err := i.repo.CheckIfFollowed(ctx, userEmails)
 		if err != nil {
 			return ServerError

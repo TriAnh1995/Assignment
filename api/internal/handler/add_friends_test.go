@@ -8,7 +8,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/friendsofgo/errors"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
 )
@@ -51,7 +50,7 @@ func TestHandler_AddFriend(t *testing.T) {
 			requestInput:    `{"friends": ["%s", "%s"]}`,
 			request:         []string{"", "seconduser@example.com"},
 			expectedCtrl:    nil,
-			expectedRespond: "{\"error\":\"One of your emails is blank\"}",
+			expectedRespond: "{\"error\":\"Invalid Email Length\"}",
 			expectedStatus:  400,
 		},
 		{
@@ -59,14 +58,14 @@ func TestHandler_AddFriend(t *testing.T) {
 			requestInput:    `{"friends": ["%s", "%s"]}`,
 			request:         []string{"firstUserExample.com", "Seconduser@example.cam"},
 			expectedCtrl:    nil,
-			expectedRespond: "{\"error\":\"One of your emails is invalid\"}",
+			expectedRespond: "{\"error\":\"Invalid Email Format\"}",
 			expectedStatus:  400,
 		},
 		{
 			Name:            "Internal server error",
 			requestInput:    `{"friends": ["%s", "%s"]}`,
 			request:         []string{"firstuser@example.com", "seconduser@example.com"},
-			expectedCtrl:    errors.New("Internal server error"),
+			expectedCtrl:    controller.ServerError,
 			expectedRespond: "{\"error\":\"Internal Server Error\"}",
 			expectedStatus:  500,
 		},
