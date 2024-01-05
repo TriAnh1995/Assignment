@@ -20,20 +20,20 @@ func (i CTRLImplement) BlockUsers(ctx context.Context, userEmails []string) erro
 			return err
 		}
 
-		checkIfFollowed, err := i.repo.CheckIfBlocked(ctx, userEmails)
+		checkIfBlocked, err := i.repo.CheckIfBlocked(ctx, userEmails)
 		if err != nil {
 			return ServerError
 		}
-		if checkIfFollowed {
+		if checkIfBlocked {
 			return AlreadyBlocked
 		}
 
-		checkIfBlocked, err := i.repo.CheckIfFollowed(ctx, userEmails)
+		checkIfFollowed, err := i.repo.CheckIfFollowed(ctx, userEmails)
 		if err != nil {
 			return ServerError
 		}
 
-		if checkIfBlocked {
+		if checkIfFollowed {
 			err = i.repo.BlockToSubscribed(ctx, userEmails)
 			if err != nil {
 				return ServerError
