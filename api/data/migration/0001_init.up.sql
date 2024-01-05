@@ -1,9 +1,10 @@
 
 CREATE SEQUENCE user_id_seq;
-CREATE TABLE user_accounts (
-                               "user_id" INT DEFAULT nextval('user_id_seq') PRIMARY KEY,
-                               "name" VARCHAR NOT NULL,
-                               "email" VARCHAR NOT NULL UNIQUE
+CREATE TABLE user_accounts
+(
+    "user_id" INT DEFAULT nextval('user_id_seq') PRIMARY KEY,
+    "name" VARCHAR NOT NULL,
+    "email" VARCHAR NOT NULL UNIQUE
 );
 
 CREATE SEQUENCE friendship_id_seq;
@@ -18,10 +19,11 @@ CREATE TABLE friendships
 CREATE SEQUENCE subscription_id_seq;
 CREATE TYPE status_type AS ENUM ('followed', 'blocked', 'default');
 
-CREATE TABLE subscription (
-                              "subscription_id" INT DEFAULT nextval('subscription_id_seq') PRIMARY KEY,
-                              "requester" VARCHAR NOT NULL,
-                              "target" VARCHAR NOT NULL,
-                              "status" status_type NOT NULL,
-                              CONSTRAINT subscribed UNIQUE (requester, target)
+CREATE TABLE subscription
+(
+    "subscription_id" INT DEFAULT nextval('subscription_id_seq') PRIMARY KEY,
+    "requester" VARCHAR NOT NULL,
+    "target" VARCHAR NOT NULL,
+    "status" status_type NOT NULL,
+    CONSTRAINT subscribed UNIQUE (requester, target)
 );
