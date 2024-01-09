@@ -12,8 +12,13 @@ type Repository interface {
 	CheckUserByEmail(context.Context, string) (bool, error)
 	AddFriendship(context.Context, string, string) error
 	CheckFriendship(context.Context, []string) (bool, error)
-	BlockSubscribedUser(ctx context.Context, userEmails []string) error
-	BlockNonSubscribedUser(ctx context.Context, userEmails []string) error
+	BlockToSubscribed(context.Context, []string) error
+	BlockToNonSubscribed(context.Context, []string) error
+	CheckIfBlocked(context.Context, []string) (bool, error)
+	CheckIfFollowed(context.Context, []string) (bool, error)
+	SubscribeToBlocked(context.Context, []string) error
+	SubscribeToNonBlocked(ctx context.Context, emails []string) error
+	GetFriendsList(context.Context, string) ([]string, error)
 }
 
 type RepoImplement struct {

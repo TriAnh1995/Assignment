@@ -12,7 +12,6 @@ func (i CTRLImplement) AddFriends(ctx context.Context, userEmails []string) erro
 		return ServerError
 	}
 	return tx.Transaction(func(*gorm.DB) error {
-		// Start Business Logic
 		// Check whether ot not both users exists in db
 		if err = i.checkEmail(ctx, userEmails[0]); err != nil {
 			return err
