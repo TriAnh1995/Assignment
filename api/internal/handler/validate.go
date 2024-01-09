@@ -39,6 +39,7 @@ func (e FriendsList) validate() error {
 	}
 	return nil
 }
+
 func (c CommonFriends) validate() error {
 	if err := validateEmails(c.Emails); err != nil {
 		return err
@@ -53,6 +54,21 @@ func (s AddSubscription) validate() error {
 		return err
 	}
 	return nil
+}
+
+func (b Block) validate() error {
+	emails := []string{b.Requester, b.Target}
+	if (len(emails) != 2) || (emails[0] == emails[1]) {
+		return errors.New("Please insert two different emails")
+	}
+
+	if requesterError := validateEmail(b.Requester); requesterError != nil {
+		return errors.New("Invalid format of requester email: " + requesterError.Error())
+	}
+	if targetError := validateEmail(b.Target); targetError != nil {
+		return errors.New("Invalid format of target email: " + targetError.Error())
+  }
+  return nil
 }
 
 // Local Functions
