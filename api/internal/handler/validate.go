@@ -43,10 +43,10 @@ func (b Block) validate() error {
 	}
 
 	if requesterError := validateEmail(b.Requester); requesterError != nil {
-		return errors.New("Something wrong with the Requester email: " + requesterError.Error())
+		return errors.New("Invalid format of requester email: " + requesterError.Error())
 	}
 	if targetError := validateEmail(b.Target); targetError != nil {
-		return errors.New("Something wrong with the Target email: " + targetError.Error())
+		return errors.New("Invalid format of target email: " + targetError.Error())
 	}
 	return nil
 }
