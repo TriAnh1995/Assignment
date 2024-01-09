@@ -11,7 +11,7 @@ type Controller interface {
 	AddFriends(context.Context, []string) error
 	FriendsList(context.Context, string) (model.FriendshipInfo, error)
 	CommonFriends(context.Context, []string) (model.FriendshipInfo, error)
-	BlockUsers(ctx context.Context, userEmails []string) error
+	BlockUsers(context.Context, []string) error
 	AddSubscription(context.Context, []string) error
 }
 type CTRLImplement struct {
