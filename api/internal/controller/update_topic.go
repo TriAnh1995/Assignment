@@ -35,9 +35,7 @@ func (i CTRLImplement) UpdateTopic(ctx context.Context, updateInfo model.UpdateI
 	nonBlockedFriendList := RemoveElements(friendList, blockedFriendList)
 
 	// And a unique emails in follower and friends circle
-	commonInFollowersAndFriends := ExtractCommonElements(followedList, friendList)
-	combinedFriendsAndFollower := append(nonBlockedFriendList, followedList...)
-	uniqueFollowerAndFriends := RemoveElements(combinedFriendsAndFollower, commonInFollowersAndFriends)
+	uniqueFollowerAndFriends := CombineUnique(followedList, nonBlockedFriendList)
 
 	// Combine with the emails mentioned in the text, we got the final list
 	finalList := append(uniqueFollowerAndFriends, updateInfo.MentionedEmail)
