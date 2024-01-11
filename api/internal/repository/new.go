@@ -16,7 +16,7 @@ type Repository interface {
 	CheckSubscription(context.Context, []string) (string, error)
 	CheckIfBlocked(context.Context, []string) (bool, error)
 	SubscribeToBlocked(context.Context, []string) error
-	AddSubscriptions(context.Context, []string) error
+	SubscribeToNonBlocked(context.Context, []string) error
 	BlockNonSubscribedUser(context.Context, []string) error
 	BlockUserInsideSubscription(context.Context, []string) error
 	UpdateTopic(context.Context, model.UpdateInfo) error

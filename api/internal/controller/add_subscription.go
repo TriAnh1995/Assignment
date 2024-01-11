@@ -38,7 +38,7 @@ func (i CTRLImplement) Subscription(ctx context.Context, userEmails []string) er
 			}
 		case "None":
 			{
-				err = i.repo.AddSubscriptions(ctx, userEmails)
+				err = i.repo.SubscribeToNonBlocked(ctx, userEmails)
 				if err != nil {
 					return middleware.ServerError
 				}

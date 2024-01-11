@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (i RepoImplement) AddSubscriptions(ctx context.Context, emails []string) error {
+func (i RepoImplement) SubscribeToNonBlocked(ctx context.Context, emails []string) error {
 	tx, err := middleware.GormConnection()
 	if err != nil {
 		return err
