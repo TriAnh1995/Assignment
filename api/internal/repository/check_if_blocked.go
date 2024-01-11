@@ -5,11 +5,12 @@ import (
 	"context"
 )
 
-func (i RepoImplement) CheckFriendship(ctx context.Context, userEmails []string) (bool, error) {
-	exist, err := orm.Relationships(
+func (i RepoImplement) CheckIfBlocked(ctx context.Context, userEmails []string) (bool, error) {
+
+	exists, err := orm.Relationships(
 		orm.RelationshipWhere.UserEmail1.EQ(userEmails[0]),
 		orm.RelationshipWhere.UserEmail2.EQ(userEmails[1]),
-		orm.RelationshipWhere.Friendship.EQ("friend"),
+		orm.RelationshipWhere.Subscription.EQ("blocked"),
 	).Exists(ctx, i.pgConn)
-	return exist, err
+	return exists, err
 }

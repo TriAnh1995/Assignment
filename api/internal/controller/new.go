@@ -10,6 +10,10 @@ type Controller interface {
 	AddUsers(context.Context, model.User) error
 	AddFriend(context.Context, []string) error
 	FriendsList(context.Context, string) (model.FriendshipInfo, error)
+	CommonFriends(context.Context, []string) (model.FriendshipInfo, error)
+	Subscription(context.Context, []string) error
+	BlockUsers(context.Context, []string) error
+	UpdateTopic(context.Context, model.UpdateInfo) ([]string, error)
 }
 
 type CTRLImplement struct {

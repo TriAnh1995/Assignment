@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"assignment/internal/middleware"
 	"assignment/internal/repository"
 	"context"
 	"testing"
@@ -40,15 +41,15 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 			expectedCheckUserByEmail: expectedCheckUserByEmail{false, nil},
 			expectedCheckFriendship:  expectedCheckFriendship{false, nil},
 			expectedAddFriendship:    nil,
-			expectedErr:              UserNotFound,
+			expectedErr:              middleware.UserNotFound,
 		},
 		{
 			Name:                     "Server error from CheckUserByEmail",
 			Input:                    []string{"firstuser@example.com", "seconduser@example.com"},
-			expectedCheckUserByEmail: expectedCheckUserByEmail{true, ServerError},
+			expectedCheckUserByEmail: expectedCheckUserByEmail{true, middleware.ServerError},
 			expectedCheckFriendship:  expectedCheckFriendship{false, nil},
 			expectedAddFriendship:    nil,
-			expectedErr:              ServerError,
+			expectedErr:              middleware.ServerError,
 		},
 		{
 			Name:                     "Friendship already added",
@@ -56,23 +57,23 @@ func TestControllerImplement_AddFriend(t *testing.T) {
 			expectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},
 			expectedCheckFriendship:  expectedCheckFriendship{true, nil},
 			expectedAddFriendship:    nil,
-			expectedErr:              FriendshipExisted,
+			expectedErr:              middleware.FriendshipExisted,
 		},
 		{
 			Name:                     "Server error from CheckFriendship",
 			Input:                    []string{"firstuser@example.com", "seconduser@example.com"},
 			expectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},
-			expectedCheckFriendship:  expectedCheckFriendship{false, ServerError},
+			expectedCheckFriendship:  expectedCheckFriendship{false, middleware.ServerError},
 			expectedAddFriendship:    nil,
-			expectedErr:              ServerError,
+			expectedErr:              middleware.ServerError,
 		},
 		{
 			Name:                     "Server error from AddFriendship",
 			Input:                    []string{"firstuser@example.com", "seconduser@example.com"},
 			expectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},
 			expectedCheckFriendship:  expectedCheckFriendship{false, nil},
-			expectedAddFriendship:    ServerError,
-			expectedErr:              ServerError,
+			expectedAddFriendship:    middleware.ServerError,
+			expectedErr:              middleware.ServerError,
 		},
 	}
 	for _, tc := range testCases {

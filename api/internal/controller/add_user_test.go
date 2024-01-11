@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"assignment/internal/middleware"
 	"assignment/internal/model"
 	"assignment/internal/repository"
 	"context"
@@ -33,21 +34,21 @@ func TestImpl_AddUsers(t *testing.T) {
 			input:                     model.User{Name: "Old_User", Email: "old_user@example.com"},
 			expectedCheckUserByEmail:  expectedCheckUserByEmail{true, nil},
 			expectedAddUserToDatabase: nil,
-			expectedErr:               UserAlreadyExist,
+			expectedErr:               middleware.UserAlreadyExist,
 		},
 		{
 			Name:                      "Server error from CheckUserByEmail",
 			input:                     model.User{Name: "Normal_User", Email: "normal_user@example.com"},
-			expectedCheckUserByEmail:  expectedCheckUserByEmail{false, ServerError},
+			expectedCheckUserByEmail:  expectedCheckUserByEmail{false, middleware.ServerError},
 			expectedAddUserToDatabase: nil,
-			expectedErr:               ServerError,
+			expectedErr:               middleware.ServerError,
 		},
 		{
 			Name:                      "Server error from AddUserToDatabase",
 			input:                     model.User{Name: "Normal_User", Email: "normal_user@example.com"},
 			expectedCheckUserByEmail:  expectedCheckUserByEmail{false, nil},
-			expectedAddUserToDatabase: ServerError,
-			expectedErr:               ServerError,
+			expectedAddUserToDatabase: middleware.ServerError,
+			expectedErr:               middleware.ServerError,
 		},
 	}
 

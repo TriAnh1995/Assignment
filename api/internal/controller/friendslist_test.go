@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"assignment/internal/middleware"
 	"assignment/internal/model"
 	"assignment/internal/repository"
 	"context"
@@ -43,23 +44,23 @@ func TestControllerImplement_FriendsList(t *testing.T) {
 			expectedCheckUserByEmail: expectedCheckUserByEmail{false, nil},
 			expectedGetFriendsList:   expectedGetFriendsList{nil, nil},
 			expectedResult:           model.FriendshipInfo{},
-			expectedErr:              UserNotFound,
+			expectedErr:              middleware.UserNotFound,
 		},
 		{
 			Name:                     "Server error from CheckUserByEmail",
 			InputEmail:               "user@example.com",
-			expectedCheckUserByEmail: expectedCheckUserByEmail{true, ServerError},
+			expectedCheckUserByEmail: expectedCheckUserByEmail{true, middleware.ServerError},
 			expectedGetFriendsList:   expectedGetFriendsList{nil, nil},
 			expectedResult:           model.FriendshipInfo{},
-			expectedErr:              ServerError,
+			expectedErr:              middleware.ServerError,
 		},
 		{
 			Name:                     "Server error from GetFriendsList",
 			InputEmail:               "user@example.com",
 			expectedCheckUserByEmail: expectedCheckUserByEmail{true, nil},
-			expectedGetFriendsList:   expectedGetFriendsList{nil, ServerError},
+			expectedGetFriendsList:   expectedGetFriendsList{nil, middleware.ServerError},
 			expectedResult:           model.FriendshipInfo{},
-			expectedErr:              ServerError,
+			expectedErr:              middleware.ServerError,
 		},
 	}
 

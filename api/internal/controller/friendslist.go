@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"assignment/internal/middleware"
 	"assignment/internal/model"
 	"context"
 )
@@ -15,7 +16,7 @@ func (i CTRLImplement) FriendsList(ctx context.Context, userEmail string) (model
 	var FriendsInfo model.FriendshipInfo
 	//Get the list of friends from repository
 	if FriendsInfo.List, err = i.repo.GetFriendsList(ctx, userEmail); err != nil {
-		return model.FriendshipInfo{}, ServerError
+		return model.FriendshipInfo{}, middleware.ServerError
 	}
 	//The length of the list is the number of friends
 	FriendsInfo.Amounts = len(FriendsInfo.List)

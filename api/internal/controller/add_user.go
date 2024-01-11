@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"assignment/internal/middleware"
 	"assignment/internal/model"
 	"context"
 )
@@ -9,13 +10,13 @@ import (
 func (i CTRLImplement) AddUsers(ctx context.Context, user model.User) error {
 	userExists, err := i.repo.CheckUserByEmail(ctx, user.Email)
 	if err != nil {
-		return ServerError
+		return middleware.ServerError
 	}
 	if userExists {
-		return UserAlreadyExist
+		return middleware.UserAlreadyExist
 	}
 	if err = i.repo.AddUser(ctx, user); err != nil {
-		return ServerError
+		return middleware.ServerError
 	}
 	return nil
 

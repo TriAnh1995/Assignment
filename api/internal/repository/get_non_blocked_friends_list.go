@@ -6,7 +6,7 @@ import (
 )
 
 // GetFriendsList retrieve a list of friend names a user have
-func (i RepoImplement) GetFriendsList(ctx context.Context, userEmail string) ([]string, error) {
+func (i RepoImplement) GetNonBlocList(ctx context.Context, userEmail string) ([]string, error) {
 	var listOfFriends []string
 
 	friends, err := orm.Relationships(

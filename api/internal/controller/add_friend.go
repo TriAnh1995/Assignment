@@ -1,15 +1,16 @@
 package controller
 
 import (
+	"assignment/internal/middleware"
 	"context"
 
 	"gorm.io/gorm"
 )
 
 func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error {
-	tx, err := GormConnection()
+	tx, err := middleware.GormConnection()
 	if err != nil {
-		return ServerError
+		return middleware.ServerError
 	}
 	return tx.Transaction(func(db *gorm.DB) error {
 		if err = i.checkEmail(ctx, userEmails[0]); err != nil {
@@ -21,14 +22,14 @@ func (i CTRLImplement) AddFriend(ctx context.Context, userEmails []string) error
 
 		checkFriendshipExist, err := i.repo.CheckFriendship(ctx, userEmails)
 		if err != nil {
-			return ServerError
+			return middleware.ServerError
 		}
 		if checkFriendshipExist {
-			return FriendshipExisted
+			return middleware.FriendshipExisted
 		}
 
 		if err = i.repo.AddFriendship(ctx, userEmails); err != nil {
-			return ServerError
+			return middleware.ServerError
 		}
 		return nil
 	})

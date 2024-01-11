@@ -50,3 +50,59 @@ func makeCacheKey(cols boil.Columns, nzDefaults []string) string {
 	strmangle.PutBuffer(buf)
 	return str
 }
+
+// Enum values for SubscriptionType
+const (
+	SubscriptionTypeFollowed string = "followed"
+	SubscriptionTypeBlocked  string = "blocked"
+	SubscriptionTypeDefault  string = "default"
+)
+
+func AllSubscriptionType() []string {
+	return []string{
+		SubscriptionTypeFollowed,
+		SubscriptionTypeBlocked,
+		SubscriptionTypeDefault,
+	}
+}
+
+// Enum values for FriendshipType
+const (
+	FriendshipTypeFriend   string = "friend"
+	FriendshipTypeStranger string = "stranger"
+)
+
+func AllFriendshipType() []string {
+	return []string{
+		FriendshipTypeFriend,
+		FriendshipTypeStranger,
+	}
+}
+
+// Enum values for StatusType
+const (
+	StatusTypeFollowed string = "followed"
+	StatusTypeBlocked  string = "blocked"
+	StatusTypeDefault  string = "default"
+)
+
+func AllStatusType() []string {
+	return []string{
+		StatusTypeFollowed,
+		StatusTypeBlocked,
+		StatusTypeDefault,
+	}
+}
+
+// Enum values for UpdateType
+const (
+	UpdateTypeUpdated string = "updated"
+	UpdateTypeDefault string = "default"
+)
+
+func AllUpdateType() []string {
+	return []string{
+		UpdateTypeUpdated,
+		UpdateTypeDefault,
+	}
+}
