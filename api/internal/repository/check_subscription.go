@@ -17,18 +17,13 @@ func (i RepoImplement) CheckSubscription(ctx context.Context, userEmails []strin
 			orm.RelationshipWhere.UserEmail1.EQ(userEmails[0]),
 			orm.RelationshipWhere.UserEmail2.EQ(userEmails[1]),
 		).One(ctx, i.pgConn)
-
-		if status == nil {
-			return "None", err
-		} else {
-			switch status.Subscription {
-			case orm.StatusTypeFollowed:
-				return "Followed", err
-			case orm.StatusTypeBlocked:
-				return "Blocked", err
-			case orm.StatusTypeDefault:
-				return "Default", err
-			}
+		switch status.Subscription {
+		case orm.StatusTypeFollowed:
+			return "Followed", err
+		case orm.StatusTypeBlocked:
+			return "Blocked", err
+		case orm.StatusTypeDefault:
+			return "Default", err
 		}
 	}
 	return "", err
