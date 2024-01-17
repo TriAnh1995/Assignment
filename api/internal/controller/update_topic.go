@@ -16,11 +16,9 @@ func (i CTRLImplement) UpdateTopic(ctx context.Context, updateInfo model.UpdateI
 		return []string{}, middleware.ServerError
 	}
 
-	receivedUpdateList, err := i.repo.GetReceivedUpdateList(ctx, updateInfo.Sender)
+	finalList, err := i.repo.GetReceivedUpdateList(ctx, updateInfo.Sender)
 	if err != nil {
 		return []string{}, middleware.ServerError
 	}
-	finalList := append(receivedUpdateList, updateInfo.MentionedEmails...)
-
-	return finalList, err
+	return finalList, nil
 }
