@@ -8,7 +8,7 @@ CREATE TABLE user_accounts
 
 CREATE SEQUENCE friendship_id_seq;
 CREATE TYPE subscription_type AS ENUM ('followed', 'blocked', 'default');
-CREATE TYPE friendship_type AS ENUM ('friend', 'stranger', 'default');
+CREATE TYPE friendship_type AS ENUM ('friend', 'stranger');
 CREATE TABLE relationship
 (
     "friendship_id" INT DEFAULT nextval('friendship_id_seq') PRIMARY KEY,
