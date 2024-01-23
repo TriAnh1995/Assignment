@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"assignment/internal/middleware"
 	"assignment/internal/model"
 	"net/http"
 
@@ -30,7 +31,7 @@ func (h Handler) UpdateTopic() gin.HandlerFunc {
 		}
 		receivedUpdateList, err := h.ctrl.UpdateTopic(c.Request.Context(), updateInfo)
 		if err != nil {
-			CustomError(c, err)
+			middleware.CustomError(c, err)
 			return
 		}
 		result := append(receivedUpdateList, mentionedEmail)

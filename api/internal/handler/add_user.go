@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"assignment/internal/middleware"
 	"assignment/internal/model"
 	"net/http"
 
@@ -31,7 +32,7 @@ func (h Handler) AddUsers() gin.HandlerFunc {
 				Name:  input.Name,
 				Email: input.Email,
 			}); err != nil {
-			CustomError(c, err)
+			middleware.CustomError(c, err)
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"message": "Add user successfully!"})

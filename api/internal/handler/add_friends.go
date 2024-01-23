@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"assignment/internal/middleware"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +23,7 @@ func (h Handler) AddFriend() gin.HandlerFunc {
 			return
 		}
 		if err := h.ctrl.AddFriend(c.Request.Context(), input.Emails); err != nil {
-			CustomError(c, err)
+			middleware.CustomError(c, err)
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"message": "Add friend successfully!"})

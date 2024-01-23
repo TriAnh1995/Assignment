@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"assignment/internal/middleware"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +23,7 @@ func (h Handler) CommonFriends() gin.HandlerFunc {
 
 		common, err := h.ctrl.CommonFriends(c.Request.Context(), input.Emails)
 		if err != nil {
-			CustomError(c, err)
+			middleware.CustomError(c, err)
 			return
 		}
 		c.IndentedJSON(200, common)
