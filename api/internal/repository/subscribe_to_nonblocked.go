@@ -22,10 +22,10 @@ func (i RepoImplement) SubscribeToNonBlocked(ctx context.Context, emails []strin
 			Friendship:   "stranger",
 		}
 		err = createFriendShip.Insert(ctx, i.pgConn, boil.Infer())
+
 		if err != nil {
 			return err
 		}
-
 		createFriendShip = &orm.Relationship{
 			UserEmail1:   emails[1],
 			UserEmail2:   emails[0],
