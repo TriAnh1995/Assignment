@@ -39,6 +39,18 @@ func (e FriendsList) validate() error {
 	}
 	return nil
 }
+func (i UpdateTopic) validate() (string, error) {
+	if err := validateEmail(i.Sender); err != nil {
+		return "", err
+	}
+	extractEmailPattern := `\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b`
+	re := regexp.MustCompile(extractEmailPattern)
+	mentionedEmail := re.FindString(i.Text)
+	if err := validateEmail(mentionedEmail); err != nil {
+		return "", err
+	}
+	return mentionedEmail, nil
+}
 
 func (c CommonFriends) validate() error {
 	if err := validateEmails(c.Emails); err != nil {
