@@ -11,6 +11,7 @@ import (
 
 var validTLDs = []string{"com", "org", "net"}
 
+// Group User
 func (u User) validate() error {
 	if len(u.Name) == 0 {
 		return errors.New("Name cannot be blank")
@@ -24,6 +25,8 @@ func (u User) validate() error {
 	}
 	return nil
 }
+
+// Group Friends
 func (f Friends) validate() error {
 	if err := validateEmails(f.Emails); err != nil {
 		return err
@@ -49,6 +52,38 @@ func (i UpdateTopic) validate() (string, error) {
 	return mentionedEmail, nil
 }
 
+func (c CommonFriends) validate() error {
+	if err := validateEmails(c.Emails); err != nil {
+		return err
+	}
+	return nil
+}
+
+// Group Subscription
+func (s AddSubscription) validate() error {
+	emails := []string{s.Requester, s.Target}
+	if err := validateEmails(emails); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (b Block) validate() error {
+	emails := []string{b.Requester, b.Target}
+	if (len(emails) != 2) || (emails[0] == emails[1]) {
+		return errors.New("Please insert two different emails")
+	}
+
+	if requesterError := validateEmail(b.Requester); requesterError != nil {
+		return errors.New("Invalid format of requester email: " + requesterError.Error())
+	}
+	if targetError := validateEmail(b.Target); targetError != nil {
+		return errors.New("Invalid format of target email: " + targetError.Error())
+  }
+  return nil
+}
+
+// Local Functions
 func validateEmail(email string) error {
 	// Check Email length
 	lengthIsValid := 0 < len(email) && len(email) <= 320
@@ -66,10 +101,8 @@ func validateEmail(email string) error {
 	// Check Email TLD
 	tldRegex := regexp.MustCompile(fmt.Sprintf("\\.(%s)$", strings.Join(validTLDs, "|")))
 
-	// Find the TLD in the email
 	matches := tldRegex.FindStringSubmatch(email)
 
-	// Check if a valid TLD is found
 	if len(matches) == 0 {
 		return errors.New("Invalid Email TLD")
 	}
