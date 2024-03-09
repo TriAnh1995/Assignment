@@ -12,10 +12,17 @@ type Repository interface {
 	CheckUserByEmail(context.Context, string) (bool, error)
 	AddFriendship(context.Context, string, string) error
 	CheckFriendship(context.Context, []string) (bool, error)
-	GetFriendsList(context.Context, string) ([]string, error)
 	GetBlockedList(context.Context, string) ([]string, error)
 	UpdateTopic(context.Context, model.UpdateInfo) error
 	GetFollowerList(context.Context, string) ([]string, error)
+	BlockToSubscribed(context.Context, []string) error
+	BlockToNonSubscribed(context.Context, []string) error
+	CheckIfBlocked(context.Context, []string) (bool, error)
+	CheckIfFollowed(context.Context, []string) (bool, error)
+	SubscribeToBlocked(context.Context, []string) error
+	SubscribeToNonBlocked(ctx context.Context, emails []string) error
+	GetFriendsList(context.Context, string) ([]string, error)
+
 }
 
 type RepoImplement struct {
@@ -24,20 +31,3 @@ type RepoImplement struct {
 
 func New(pgConn boil.ContextExecutor) Repository {
 	return RepoImplement{pgConn: pgConn}
-}
-
-func (i RepoImplement) GetFriendsList(ctx context.Context, userEmail string) ([]string, error) {
-	return []string{}, nil
-}
-
-func (i RepoImplement) GetBlockedList(ctx context.Context, userEmail string) ([]string, error) {
-	return []string{}, nil
-}
-
-func (i RepoImplement) GetFollowerList(ctx context.Context, userEmail string) ([]string, error) {
-	return []string{}, nil
-}
-
-func (i RepoImplement) UpdateTopic(ctx context.Context, updateInfo model.UpdateInfo) error {
-	return nil
-}

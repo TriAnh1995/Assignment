@@ -28,6 +28,19 @@ func (_m *MockController) AddFriends(_a0 context.Context, _a1 []string) error {
 	return r0
 }
 
+// AddSubscription provides a mock function with given fields: _a0, _a1
+func (_m *MockController) AddSubscription(_a0 context.Context, _a1 []string) error {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, []string) error); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Error(0)
+	}
+	return r0
+}
+
 // AddUsers provides a mock function with given fields: _a0, _a1
 func (_m *MockController) AddUsers(_a0 context.Context, _a1 model.User) error {
 	ret := _m.Called(_a0, _a1)
@@ -66,6 +79,20 @@ func (_m *MockController) CommonFriends(_a0 context.Context, _a1 []string) (mode
 	return r0, r1
 }
 
+// BlockUsers provides a mock function with given fields: ctx, userEmails
+func (_m *MockController) BlockUsers(ctx context.Context, userEmails []string) error {
+	ret := _m.Called(ctx, userEmails)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, []string) error); ok {
+		r0 = rf(ctx, userEmails)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // FriendsList provides a mock function with given fields: _a0, _a1
 func (_m *MockController) FriendsList(_a0 context.Context, _a1 string) (model.FriendshipInfo, error) {
 	ret := _m.Called(_a0, _a1)
@@ -82,6 +109,32 @@ func (_m *MockController) FriendsList(_a0 context.Context, _a1 string) (model.Fr
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(_a0, _a1)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateTopic provides a mock function with given fields: _a0, _a1
+func (_m *MockController) UpdateTopic(_a0 context.Context, _a1 model.UpdateInfo) ([]string, error) {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 []string
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, model.UpdateInfo) ([]string, error)); ok {
+		return rf(_a0, _a1)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, model.UpdateInfo) []string); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]string)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, model.UpdateInfo) error); ok {
 		r1 = rf(_a0, _a1)
 	} else {
 		r1 = ret.Error(1)
