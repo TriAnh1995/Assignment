@@ -59,7 +59,6 @@ func TestImpl_AddUsers(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-
 			// Defined mock Behaviors
 			repo.On("CheckUserByEmail", ctx, tc.input.Email).
 				Return(tc.expectedCheckUserByEmail.expectedExist, tc.expectedCheckUserByEmail.expectedErr)
@@ -69,6 +68,7 @@ func TestImpl_AddUsers(t *testing.T) {
 
 			// Run the Test
 			err := ctrl.AddUsers(ctx, tc.input)
+
 			// Check Result
 			if err != nil {
 				require.EqualError(t, err, tc.expectedErr.Error())
