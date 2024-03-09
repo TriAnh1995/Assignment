@@ -18,3 +18,4 @@ var (
 	InternalErrorGetFriendList         = errors.New("orm: failed to assign all query results to Friendship slice: bind failed to execute query: all expectations were already fulfilled, call to Query 'SELECT \"friendships\".* FROM \"friendships\" WHERE (user_email_1 = $1 OR user_email_2 = $2);' with args [{Name: Ordinal:1 Value:already_exist_email_1@example.com} {Name: Ordinal:2 Value:already_exist_email_1@example.com}] was not expected")
 	InternalErrorSubscribeToNonBlocked = errors.New("orm: unable to insert into subscription: all expectations were already fulfilled, call to Query 'INSERT INTO \"subscription\" (\"requester\",\"target\",\"status\") VALUES ($1,$2,$3) RETURNING \"subscription_id\"' with args [{Name: Ordinal:1 Value:requester@example.com} {Name: Ordinal:2 Value:target@example.com} {Name: Ordinal:3 Value:followed}] was not expected")
 )
+
